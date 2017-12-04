@@ -1,0 +1,23 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'war'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'eclipse'
+
+    repositories {
+       mavenCentral()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.8.2'
+        compile "ch.qos.logback:logback-core:1.1.1"
+    	compile "ch.qos.logback:logback-classic:1.1.1"
+    	compile "org.slf4j:slf4j-api:1.7.6"
+    }
+
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'my cool company'
+    }
+}
