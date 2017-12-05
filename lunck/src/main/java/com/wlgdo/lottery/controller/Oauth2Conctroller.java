@@ -29,20 +29,20 @@ import net.sf.json.JSONObject;
 @Controller
 public class Oauth2Conctroller {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+    Logger               log                = LoggerFactory.getLogger(getClass());
 
     /** 授权api */
-    String AUTHORIZE_API = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI"
-            + "&response_type=code&scope=SCOPE&state=STATE#wechat_redirect ";
+    String               AUTHORIZE_API      = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI"
+                                              + "&response_type=code&scope=SCOPE&state=STATE#wechat_redirect ";
     /** 获取网页accesstoken api */
-    String ACCESS_TOKEN_PAI = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE"
-            + "&grant_type=authorization_code";
+    String               ACCESS_TOKEN_PAI   = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE"
+                                              + "&grant_type=authorization_code";
 
     /** 获取用户基本信息api */
-    String USER_BASE_INFO_API = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    String               USER_BASE_INFO_API = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 
     /** 本应用域名 */
-    String APP_DOMAIN = "https://www.wlgdo.com/lunck/";
+    String               APP_DOMAIN         = "https://www.wlgdo.com/lunck/";
 
     @Autowired
     private ActorService actorService;
@@ -78,6 +78,15 @@ public class Oauth2Conctroller {
         log.info("授权页面出异常了，没有正常运行");
     }
 
+    /**
+     * 授权模块
+     * @author Ligang.Wang[wang_lg@suixingpay.com]
+     * @date 2017年12月5日下午2:28:55
+     * @param model
+     * @param request
+     * @param response
+     * @return Object
+     */
     @RequestMapping("mp/oauth/code")
     public Object mpOauthCode(Model model, HttpServletRequest request, HttpServletResponse response) {
         log.info("开始获取code：{}");
@@ -87,7 +96,7 @@ public class Oauth2Conctroller {
         if (StringUtils.isBlank(code)) {
             model.addAttribute(code, code);
             model.addAttribute("msg", "获取授权失败");
-            return "mp/oauth";
+            return "mp/oauthError";
         }
         String accessTokenApi = ACCESS_TOKEN_PAI.replace("APPID", "wx3cb81c3c95c1a755");
         accessTokenApi = accessTokenApi.replace("SECRET", "600bd6c8edb8ca5340e409910845ca5c").replace("CODE", code);
@@ -97,13 +106,20 @@ public class Oauth2Conctroller {
         String httpOrgCreateTestRtn = HttpClientUtil.doPost(httpOrgCreateTest, createMap, "utf-8");
         log.info("获取的结果是httpOrgCreateTestRtn：{}", httpOrgCreateTestRtn);
         if (StringUtils.isBlank(httpOrgCreateTestRtn)) {
-            return "未获取到accesstoken:" + httpOrgCreateTest;
+            model.addAttribute(code, code);
+            model.addAttribute("msg", "获取授权失败:" + httpOrgCreateTest);
+            return "mp/oauthError";
         }
-        JSONObject jsonObj = JSONObject.fromObject(httpOrgCreateTestRtn);
-        log.info("获取的结果是jsonObj：{}", jsonObj);
-
-        String accessToken = jsonObj.getString("access_token");
-        String openid = jsonObj.getString("openid");
+        JSONObject accessTkJsonObj = JSONObject.fromObject(httpOrgCreateTestRtn);
+        log.info("获取accesstoken的返回结果是：{}", accessTkJsonObj);
+        if (!accessTkJsonObj.containsKey("access_token")) {
+            log.error("获取用户头像失败：{}", httpOrgCreateTestRtn);
+            model.addAttribute("code", accessTkJsonObj.getString("errcode"));
+            model.addAttribute("userInfo", accessTkJsonObj);
+            return "mp/oauthInfo";
+        }
+        String accessToken = accessTkJsonObj.getString("access_token");
+        String openid = accessTkJsonObj.getString("openid");
 
         String userInfoUrl = USER_BASE_INFO_API.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
         log.info("获取的结果是jsonObj：{}", userInfoUrl);
@@ -127,6 +143,6 @@ public class Oauth2Conctroller {
 
         model.addAttribute("userInfo", userInfoJson);
 
-        return "mp/userInfo";
+        return "mp/oauthInfo";
     }
 }

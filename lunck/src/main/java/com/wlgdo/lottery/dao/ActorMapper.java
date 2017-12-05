@@ -17,19 +17,23 @@ public interface ActorMapper {
     @Update("update t_actor set mobile=#{mobile}, status=${status} where id=#{uid}")
     int updateActorUser(ActorUser actorUser);
 
-    @Select("select * from t_actor where employee_no=#{employeeNo}")
+    @Select("select id uid,employee_no employeeNo,mobile,org_id orgId,name,nick_name nickName,status,head_img headImg,"
+            + "wx_Body wxBody,openid,email  from t_actor where employee_no=#{employeeNo}")
     ActorUser getActorByEmployee(String employee);
 
-    @Select("select id uid,employee_no employeeNo,mobile,name,status,head_img headImg,wx_Body wxBody,openid from t_actor where org_id=#{orgId}")
+    @Select("select select id uid,employee_no employeeNo,mobile,org_id orgId,name,nick_name nickName,status,head_img headImg,email "
+            + "from t_actor where org_id=#{orgId}")
     List<ActorUser> getActoUserListByOrgId(String string);
 
-    @Select("select id uid,employee_no employeeNo,mobile,name,status,head_img headImg,wx_Body wxBody,openid from t_actor where org_id=#{orgId} and mobile=#{mobile}")
+    @Select("select id uid,employee_no employeeNo,mobile,org_id orgId,name,nick_name nickName,status,head_img headImg,"
+            + "wx_Body wxBody,openid,email "
+            + "from t_actor where org_id=#{orgId} and mobile=#{mobile}")
     ActorUser getActorByMobile(String orgId, String mobile);
 
     @Select("select employee_no employeeNo,mobile,name,status from t_actor where id=#{uid}")
     ActorUser getActorUserByUid(String uid);
 
     @Insert("insert into t_actor(id,gender,status,org_id,nick_name,openid,head_img,wx_body) "
-            + "values(#{uid},#{gender},#{status},#{orgId},#{nickName},#{openid},#{headImg},#{wxBody})")
+            + "values(#{uid},#{gender},${status},#{orgId},#{nickName},#{openid},#{headImg},#{wxBody})")
     int insertActorUserWxInfo(ActorUser actor);
 }
