@@ -16,7 +16,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = -6813759639777340481L;
     private String            uid;                                     //用户uuid，基于本平台的
     private String            name;                                    //用户名称
-    private String            nickName;                                //昵称
     private String            gender;                                  //性别
     private String            mobile;                                  //用户的手机号
     private String            email;                                   //用户的邮箱
@@ -47,13 +46,7 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
+  
 
     public String getMobile() {
         return mobile;

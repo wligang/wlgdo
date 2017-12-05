@@ -25,54 +25,35 @@ import com.wlgdo.lottery.service.UserService;
 @Controller
 public class UserController {
 
-    Logger log = LoggerFactory.getLogger(getClass());
-    // 依赖注入
-    @Autowired
-    UserService userService;
+	Logger log = LoggerFactory.getLogger(getClass());
+	// 依赖注入
+	@Autowired
+	UserService userService;
 
-    /**
-     * @desc @PathVariable Rest风格路径取参
-     * @author Ligang.Wang[wang_lg@suixingpay.com]
-     * @date 2017年11月10日下午3:51:23
-     * @param model
-     *            域模型传参
-     * @param id
-     *            用户Id
-     * @return String
-     */
+	/**
+	 * @desc [有效描述]
+	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @date 2017年11月10日下午3:43:26
+	 * @param model
+	 * @param user
+	 * @return String
+	 */
+	@RequestMapping("add")
+	@ResponseBody
+	public String add(Model model, ActorUser user) {
+		// 设置用户注册时间
+		// userService.addUser(user);
+		log.info("注册用户");
+		return "addUser";
+	}
 
-    @RequestMapping("select/{id}")
-    public String select(Model model, @PathVariable("id") int id) {
-        // User user = userService..selectUserById(id);
-        model.addAttribute("user", "nihao");
-        model.addAttribute("actor", new ActorUser("sd", "openid", "headImg", "wxBody"));
-        return "user";
-    }
+	@RequestMapping("user")
+	public String addAll(ModelMap model) {
+		log.info("info查询所有用户：{}", model);
+		List<User> userAll = userService.List();
 
-    /**
-     * @desc [有效描述]
-     * @author Ligang.Wang[wang_lg@suixingpay.com]
-     * @date 2017年11月10日下午3:43:26
-     * @param model
-     * @param user
-     * @return String
-     */
-    @RequestMapping("add")
-    @ResponseBody
-    public String add(Model model, ActorUser user) {
-        // 设置用户注册时间
-        // userService.addUser(user);
-        log.info("注册用户");
-        return "addUser";
-    }
-
-    @RequestMapping("user")
-    public String addAll(ModelMap model) {
-        log.info("info查询所有用户：{}", model);
-        List<User> userAll = userService.List();
-
-        model.addAttribute("userAll", userAll);
-        return "Alluser";
-    }
+		model.addAttribute("userAll", userAll);
+		return "Alluser";
+	}
 
 }

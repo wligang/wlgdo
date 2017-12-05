@@ -13,7 +13,7 @@ println "###################### env is $env ######################"
         testCompile 'junit:junit:4.8.2'
     }
 	group = 'com.wlgdo'
-	version = '1'
+	version = '2'
 
 	war{
 	    baseName = 'lunck'
