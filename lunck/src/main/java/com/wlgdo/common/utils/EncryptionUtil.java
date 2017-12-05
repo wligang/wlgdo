@@ -20,7 +20,7 @@ public class EncryptionUtil {
     private static final BASE64Encoder base64en = new BASE64Encoder();
 
     private static final BASE64Decoder base64De = new BASE64Decoder();
-    private static final String DES_KEY = "Jo6#asjsPU#&1WsPmsusjs8isj";
+    public static final String DES_KEY = "Jo6#asjsPU#&1WsPmsusjs8isj";
 
     /**
      * Base64编码.
