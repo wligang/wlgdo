@@ -3,6 +3,7 @@ package com.wlgdo.lottery.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wlgdo.common.utils.DESUtils;
 import com.wlgdo.common.utils.EncryptionUtil;
@@ -118,7 +120,8 @@ public class Oauth2Conctroller {
 	 * @return Object
 	 */
 	@RequestMapping("oauth/code/{org}")
-	public Object mpOauthCode(@PathVariable("org") String org, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public Object mpOauthCode(@PathVariable("org") String org, Model model, RedirectAttributes attr, HttpServletRequest request,
+			HttpServletResponse response) {
 		log.info("开始获取code：{}");
 		String code = request.getParameter("code");
 		// 授权完需要返回的页面
@@ -128,8 +131,9 @@ public class Oauth2Conctroller {
 			model.addAttribute("msg", "获取授权失败");
 			return "oauth/oauthError";
 		}
-		String accessTokenApi = ACCESS_TOKEN_PAI.replace("APPID", "wx3cb81c3c95c1a755");
-		accessTokenApi = accessTokenApi.replace("SECRET", "600bd6c8edb8ca5340e409910845ca5c").replace("CODE", code);
+		OrgInfo orgInfo = orgService.getOrgInfoById(Integer.valueOf(org));
+		String accessTokenApi = ACCESS_TOKEN_PAI.replace("APPID", orgInfo.getAppid());
+		accessTokenApi = accessTokenApi.replace("SECRET", orgInfo.getAppsecret()).replace("CODE", code);
 		String httpOrgCreateTest = accessTokenApi;
 		Map<String, String> createMap = new HashMap<String, String>();
 		log.info("获取accesstoken：{}", httpOrgCreateTest);
@@ -171,11 +175,46 @@ public class Oauth2Conctroller {
 		int successnNUm = actorService.insertActorUserWxInfo(actor);
 		log.info("保存微信用户结果：{}", (successnNUm == 1 ? "Ok" : "No"));
 
-		model.addAttribute("userInfo", userInfoJson);
+		// 放出去信息
+		request.getSession().setAttribute("orgInfo", orgInfo);
+		request.getSession().setAttribute("userInfo", actor);
+
 		String orgRedirectUrl = request.getParameter("state");
 		if (StringUtils.isBlank(orgRedirectUrl)) {
 			return "oauth/oauthInfo";
 		}
 		return "redirect:" + orgRedirectUrl;
+	}
+
+	/**
+	 * 本系统中的授权结果
+	 * 
+	 * @author Ligang.Wang[wlgchun@163.com]
+	 * @date 2017年12月6日上午1:05:28
+	 * @param org
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("oauth/test")
+	public Object test(RedirectAttributes attr, Model model, HttpServletRequest request, HttpServletResponse response) {
+		log.info("开始获取code：{}");
+		OrgInfo orgInfo = new OrgInfo();
+		orgInfo.setOrgName("阿里巴巴");
+		request.getSession().setAttribute("orgInfo", orgInfo);
+		request.getSession().setAttribute("userInfo", new ActorUser("orgId", "肥肥晗", "openid", "headImg", "wxBody"));
+		return "redirect:http://localhost:8080/lunck/oauth/info";
+	}
+
+	@RequestMapping("oauth/info")
+	public Object oauthInfo(Model model, HttpServletRequest request, HttpServletResponse response) {
+		ActorUser userInfo = (ActorUser) request.getSession().getAttribute("userInfo");
+		OrgInfo orgInfo = (OrgInfo) request.getSession().getAttribute("orgInfo");
+		log.info("用户基本信息是：{}", userInfo);
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("orgInfo", orgInfo);
+		model.addAttribute("date", new Date());
+		return "oauth/oauthInfo";
 	}
 }
