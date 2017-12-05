@@ -5,27 +5,27 @@ import java.sql.Date;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-public class Org implements Serializable {
+public class OrgInfo implements Serializable {
 
     private static final long serialVersionUID = 456981164207187707L;
-    private String id;
-    private String orgName;
-    private String chargeName;
-    private String chargeMobile;
-    private String appid;
-    private String appsecret;
-    private String mpToken;
-    private String accessToken;
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:sss")
-    private Date tokenFreshTime;// accessToken 更新时间7
-    private String createTime;
-    private Integer status;// 0:正常，1:停用
+    private int               id;
+    private String            orgName;
+    private String            chargeName;
+    private String            chargeMobile;
+    private String            appid;
+    private String            appsecret;
+    private String            mpToken;
+    private String            accessToken;
+    //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:sss")
+    private Date              tokenFreshTime;                         // accessToken 更新时间7
+    private String            createTime;
+    private Integer           status;                                 // 0:正常，1:停用
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

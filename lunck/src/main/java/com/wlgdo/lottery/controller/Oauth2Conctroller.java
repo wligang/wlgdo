@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wlgdo.common.utils.HttpClientUtil;
 import com.wlgdo.lottery.domain.ActorUser;
+import com.wlgdo.lottery.domain.OrgInfo;
 import com.wlgdo.lottery.service.ActorService;
+import com.wlgdo.lottery.service.OrgService;
 
 import net.sf.json.JSONObject;
 
@@ -47,6 +49,9 @@ public class Oauth2Conctroller {
     @Autowired
     private ActorService actorService;
 
+    @Autowired
+    private OrgService   orgService;
+
     @RequestMapping("mp/{org}")
     @ResponseBody
     public Object weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
@@ -64,7 +69,12 @@ public class Oauth2Conctroller {
     @RequestMapping("mp/oauth/{org}")
     @ResponseBody
     public void mpOauth2(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
-        log.info("授权页面正常运行");
+        log.info("授权【statr:{}】", System.currentTimeMillis());
+        if (!StringUtils.isNumeric(org)) {
+            log.info("错误的机构id");
+            return;
+        }
+        OrgInfo orgInfo = orgService.getOrgInfoById(Integer.valueOf(org));
         String auth2Api = AUTHORIZE_API.replace("APPID", "wx3cb81c3c95c1a755");
         auth2Api = auth2Api.replace("REDIRECT_URI", URLEncoder.encode(APP_DOMAIN + "mp/oauth/code"));
         auth2Api = auth2Api.replace("SCOPE", "snsapi_userinfo").replace("STATE", org);
