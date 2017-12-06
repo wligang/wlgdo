@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wlgdo.lottery.domain.ActorUser;
-
 import com.wlgdo.lottery.dao.ActorMapper;
 
 /**
@@ -44,6 +43,14 @@ public class ActorService {
 
     public int insertActorUserWxInfo(ActorUser actor) {
         return actorMapper.insertActorUserWxInfo(actor);
+    }
+
+    public ActorUser getActorUserByOrgAndOpenid(String orgId, String openid) {
+        return actorMapper.getActorUserByOrgAndOpenid(orgId,openid);
+    }
+
+    public int updateActorUserWxInfo(ActorUser actor) {
+        return actorMapper.updateActorUserWxInfo(actor);
     }
 
 }
