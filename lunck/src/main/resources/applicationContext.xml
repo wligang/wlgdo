@@ -28,24 +28,12 @@
 			</list>
 		</property>
 	</bean>
-	<!-- 配置文件加载 -->
-	<context:property-placeholder location="classpath:conf/config.properties" />
-	<bean id="propertiesReader"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="locations">
-			<list>
-				<value>classpath:conf/config.properties</value>
-			</list>
-		</property>
-	</bean>
-	<util:list id="propertiesLoader">
-		<value>classpath:conf/config.properties</value>
-		<value>classpath:conf/jdbc.properties</value>
-		<value>classpath:conf/mongodb.properties</value>
-
-	</util:list>
-
+	
 	<!-- property加载器 -->
+	<context:property-placeholder location="classpath:config.properties"  ignore-unresolvable="true"  />
+	<util:list id="propertiesLoader">
+		<value>classpath:config.properties</value>
+	</util:list>
 	<bean id="propertyConfigurer" class="com.wlgdo.common.utils.PropertiesUtil"
 		p:ignoreResourceNotFound="true" p:systemPropertiesMode="1"
 		p:locations-ref="propertiesLoader">
@@ -53,8 +41,8 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-	<import resource="spring-base.xml" />
-	<import resource="spring-mybaties.xml" />
-	<import resource="spring-mongodb.xml" />
+	<import resource="spring/spring-base.xml" />
+	<import resource="spring/spring-mybaties.xml" />
+	<import resource="spring/spring-mongodb.xml" />
 
 </beans>

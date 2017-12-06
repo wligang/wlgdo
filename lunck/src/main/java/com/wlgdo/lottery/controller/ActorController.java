@@ -85,6 +85,7 @@ public class ActorController {
         actorUser.setEmployeeNo(employee);
         actorUser.setOrgId(orgId);
         actorUser.setStatus(0);
+        actorUser.setNickName("肥肥@晗:🎈");
         int successNum = actorService.insertActorUser(actorUser);
         return new Resp(RespCode.SUCCESS, successNum);
     }
