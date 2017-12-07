@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,12 +37,12 @@ import com.wlgdo.lottery.service.ActorService;
 @RestController
 public class ActorController {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+    Logger               log                = LoggerFactory.getLogger(getClass());
 
-    public String RESOURCE_FILE_PATH = PropertiesUtil.prop("resourceFilePath");
+    public String        RESOURCE_FILE_PATH = PropertiesUtil.prop("resourceFilePath");
 
     /** ActorUser的session key */
-    public static String ACT_USER = "act_user";
+    public static String ACT_USER           = "act_user";
 
     @Autowired
     private ActorService actorService;
@@ -59,6 +61,14 @@ public class ActorController {
     public Resp actorList(@PathVariable("orgid") String orgid) {
         log.info("info查询该机构下所有用户：{}", orgid);
         List<ActorUser> actorUsers = actorService.getActoUserListByOrgId(orgid);
+        for (ActorUser a : actorUsers) {
+            try {
+                a.setNickName(URLDecoder.decode(a.getNickName(), "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                log.error("用户的{}的昵称是emoji：{}", a.getName(), a.getNickName());
+                a.setNickName(a.getName());
+            }
+        }
         log.info("列表：{}", actorUsers);
         return new Resp(RespCode.SUCCESS, actorUsers);
     }
@@ -78,7 +88,7 @@ public class ActorController {
      */
     @RequestMapping("/actor/add/{employee}/{name}/{orgId}")
     public Object addActor(@PathVariable("employee") String employee, @PathVariable("name") String name,
-            @PathVariable("orgId") String orgId) {
+                           @PathVariable("orgId") String orgId) {
         ActorUser actorUser = new ActorUser();
         actorUser.setUid(UUID.randomUUID().toString().toLowerCase().replace("-", ""));
         actorUser.setName(name);

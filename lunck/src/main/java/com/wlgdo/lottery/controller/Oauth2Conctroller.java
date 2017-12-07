@@ -44,30 +44,30 @@ import net.sf.json.JSONObject;
 @Controller
 public class Oauth2Conctroller {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+    Logger               log                = LoggerFactory.getLogger(getClass());
 
     /** 授权api */
-    String AUTHORIZE_API = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI"
-            + "&response_type=code&scope=SCOPE&state=STATE#wechat_redirect ";
+    String               AUTHORIZE_API      = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI"
+                                              + "&response_type=code&scope=SCOPE&state=STATE#wechat_redirect ";
     /** 获取网页accesstoken api */
-    String ACCESS_TOKEN_PAI = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE"
-            + "&grant_type=authorization_code";
+    String               ACCESS_TOKEN_PAI   = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE"
+                                              + "&grant_type=authorization_code";
 
     /** 获取用户基本信息api */
-    String USER_BASE_INFO_API = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    String               USER_BASE_INFO_API = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 
     /** 本应用域名 */
-    String APP_DOMAIN = "https://www.wlgdo.com/lunck/";
+    String               APP_DOMAIN         = "https://www.wlgdo.com/lunck/";
 
     @Autowired
     private ActorService actorService;
 
     @Autowired
-    private OrgService orgService;
+    private OrgService   orgService;
 
     @RequestMapping("oauth/wx/{org}")
     @ResponseBody
-    public Object weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
+    public Object weiXinAccess(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
@@ -123,7 +123,7 @@ public class Oauth2Conctroller {
      */
     @RequestMapping("oauth/code/{org}")
     public Object mpOauthCode(@PathVariable("org") String org, Model model, RedirectAttributes attr, HttpServletRequest request,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         log.info("开始获取code：{}");
         String code = request.getParameter("code");
         // 授权完需要返回的页面
@@ -252,7 +252,14 @@ public class Oauth2Conctroller {
         }
         JSONObject userInfoJson = JSONObject.fromObject(jsonStr);
         actor.setOpenid(userInfoJson.getString("openid"));
-        actor.setNickName(userInfoJson.getString("nickname"));
+        String nickName = actor.getName();
+        try {
+            nickName = URLEncoder.encode(userInfoJson.getString("nickname"), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("特殊符号转化错误：{}", userInfoJson.getString("nickname"));
+            actor.setNickName(nickName);
+
+        }
         actor.setGender(userInfoJson.getString("sex"));
         actor.setHeadImg(userInfoJson.getString("headimgurl"));
         actor.setWxBody(jsonStr);
