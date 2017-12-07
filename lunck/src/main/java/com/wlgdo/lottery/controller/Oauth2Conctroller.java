@@ -3,6 +3,7 @@ package com.wlgdo.lottery.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,10 +13,10 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -184,11 +185,10 @@ public class Oauth2Conctroller {
             log.info("更新微信用户结果：{}", (x == 1 ? "Ok" : "No"));
             try {
                 // 将最新的用户信息放出去
-                BeanUtils.copyProperties(actor, actorTmp);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                BeanUtils.copyProperties(actorTmp, actor);
+                actor.setNickName(URLDecoder.decode(actor.getNickName(), "utf-8"));
+            } catch (Exception e) {
+                log.error("昵称转化错误：{}", actor);
             }
         }
 
@@ -254,15 +254,14 @@ public class Oauth2Conctroller {
         actor.setOpenid(userInfoJson.getString("openid"));
         String nickName = actor.getName();
         try {
-            nickName = URLEncoder.encode(userInfoJson.getString("nickname"), "utf-8");
+            nickName = StringUtils.defaultString(URLEncoder.encode(userInfoJson.getString("nickname"), "utf-8"), nickName);
         } catch (UnsupportedEncodingException e) {
             log.error("特殊符号转化错误：{}", userInfoJson.getString("nickname"));
-            actor.setNickName(nickName);
-
         }
+        actor.setNickName(nickName);
         actor.setGender(userInfoJson.getString("sex"));
         actor.setHeadImg(userInfoJson.getString("headimgurl"));
         actor.setWxBody(jsonStr);
-
+        log.info("转化后结果是：{}", JSONObject.fromObject(actor));
     }
 }

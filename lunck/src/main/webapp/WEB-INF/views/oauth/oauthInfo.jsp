@@ -6,13 +6,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
 <title>用户基本信息</title>
 </head>
 <body>
 	<div style="text-align: center;">
-		<h1>
+		<h2>
 			尊敬的用户<font color="red"><b>【${userInfo.nickName}】</b></font>
-		</h1>
+		</h2>
 		<h3>
 			您已对商户<font color="red"><b>【${orgInfo.orgName}】</b></font>进行了授权
 		</h3>
