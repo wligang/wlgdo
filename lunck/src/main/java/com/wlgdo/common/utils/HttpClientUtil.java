@@ -15,6 +15,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import net.sf.json.JSONObject;
+
 /* 
  * 利用HttpClient进行post请求的工具类 
  */
@@ -50,15 +52,31 @@ public class HttpClientUtil {
         return result;
     }
 
-    public static void mainTest(String[] args) {
-        String url = "https://www.wlgdo.com/mp/001.do";
-        String httpOrgCreateTest = url;
-        Map<String, String> createMap = new HashMap<String, String>();
-        createMap.put("signature", "signatureXXXXX");
-        createMap.put("nonce", "nonce2");
-        createMap.put("echostr", "echostr3");
-        createMap.put("timestamp", "timestamp4");
-        String httpOrgCreateTestRtn = doPost(httpOrgCreateTest, createMap, "utf-8");
+    public static void main(String[] args) {
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN".replace("ACCESS_TOKEN",
+                "wpOm3OJUb3mNQmCSEkTUjjff_PWj0LBCU6OTDd2HVwyqrZY863j7ocg7YjLRhrqQii2A39GufRmNnI6Ib1J0gWB927nlyH-DaEjx_dLLGokBABdAEAPOP");
+        JSONObject json = new JSONObject();
+        json.put("touser", "ovDvrvnIwxNJYH-IPoimRmJXRSuM");
+        json.put("template_id", "Ae4LJU798DyFNSm5-sAJWOS0IN_b632rTXEEEBVNtww");
+        json.put("topcolor", "#FF0000");
+        json.put("url", "https://www.wlgdo.com/awards/award.html#0");
+
+        JSONObject data = new JSONObject();
+
+        JSONObject orgName = new JSONObject();
+        orgName.put("value", "王利刚");
+        orgName.put("color", "#173177");
+        data.put("orgName", orgName);
+
+        JSONObject awardName = new JSONObject();
+        orgName.put("value", "双12精彩大放送");
+        orgName.put("color", "#173177");
+
+        data.put("orgName", orgName);
+        data.put("awardName", awardName);
+        json.put("data", data);
+
+        String httpOrgCreateTestRtn = doPost(url, MapUtils.objectToMap(new HashMap<String, String>(), json), "utf-8");
         System.out.println("result:" + httpOrgCreateTestRtn);
     }
 }

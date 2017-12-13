@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.wlgdo.common.utils.DESUtils;
-import com.wlgdo.common.utils.EncryptionUtil;
 import com.wlgdo.common.utils.HttpClientUtil;
-import com.wlgdo.common.utils.PaUtil;
 import com.wlgdo.common.utils.Resp;
+import com.wlgdo.common.utils.WeixinUtils;
 import com.wlgdo.lottery.domain.ActorUser;
 import com.wlgdo.lottery.domain.OrgInfo;
 import com.wlgdo.lottery.service.ActorService;
@@ -65,17 +63,19 @@ public class Oauth2Conctroller {
 
 	@RequestMapping("oauth/wx/{org}")
 	@ResponseBody
-	public Object weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
-		String signature = request.getParameter("signature");
-		String timestamp = request.getParameter("timestamp");
-		String nonce = request.getParameter("nonce");
-		String echostr = request.getParameter("echostr");
-		log.info("接入接口校验:{},{},{},{},{}", org, signature, timestamp, nonce, echostr);
-		if (StringUtils.isNotBlank(signature)) {
-			log.info("签名串是：{}", signature);
+	public void weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
+		log.info("微信事件处理**********");
+		OrgInfo orgInfo = orgService.getOrgInfoById(Integer.valueOf(org));
+		boolean method = "GET".equals(request.getMethod());
+		if (method) {
+			log.info("接入校验:{}", orgInfo);
+			WeixinUtils.access(request, response, orgInfo);
+			return;
 		}
-		String token = DESUtils.encrypt(org, EncryptionUtil.DES_KEY);
-		return PaUtil.access(token, signature, timestamp, nonce, echostr);
+		log.info("微信事件其他事件处理**********");
+		WeixinUtils.message(request, response, orgInfo);
+		log.info("微信事件处理完成*********");
+
 	}
 
 	@RequestMapping("oauth/{org}")
