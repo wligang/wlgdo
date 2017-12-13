@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String            mobile;                                  //用户的手机号
     private String            email;                                   //用户的邮箱
     private Integer           age;                                     //年龄
-    private Date              birthday;                                //出生日期
+    private String              birthday;                                //出生日期
 
     public String getName() {
         return name;
@@ -64,11 +64,12 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    public Date getBirthday() {
+
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
