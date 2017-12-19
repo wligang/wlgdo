@@ -2,8 +2,6 @@ package com.wlgdo.lottery.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.wlgdo.common.utils.DESUtils;
-import com.wlgdo.common.utils.EncryptionUtil;
 import com.wlgdo.common.utils.HttpClientUtil;
-import com.wlgdo.common.utils.PaUtil;
 import com.wlgdo.common.utils.Resp;
 import com.wlgdo.common.utils.WeixinUtils;
 import com.wlgdo.lottery.domain.ActorUser;
@@ -69,17 +63,19 @@ public class Oauth2Conctroller {
 
     @RequestMapping("oauth/wx/{org}")
     @ResponseBody
-    public Object weiXinAccess(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
-        String signature = request.getParameter("signature");
-        String timestamp = request.getParameter("timestamp");
-        String nonce = request.getParameter("nonce");
-        String echostr = request.getParameter("echostr");
-        log.info("接入接口校验:{},{},{},{},{}", org, signature, timestamp, nonce, echostr);
-        if (StringUtils.isNotBlank(signature)) {
-            log.info("签名串是：{}", signature);
+    public void weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
+        log.info("微信事件处理**********");
+        OrgInfo orgInfo = orgService.getOrgInfoById(Integer.valueOf(org));
+        boolean method = "GET".equals(request.getMethod());
+        if (method) {
+            log.info("接入校验:{}", orgInfo);
+            WeixinUtils.access(request, response, orgInfo);
+            return;
         }
-        String token = DESUtils.encrypt(org, EncryptionUtil.DES_KEY);
-        return PaUtil.access(token, signature, timestamp, nonce, echostr);
+        log.info("微信事件其他事件处理**********");
+        WeixinUtils.message(request, response, orgInfo);
+        log.info("微信事件处理完成*********");
+
     }
 
     @RequestMapping("oauth/{org}")
@@ -166,32 +162,18 @@ public class Oauth2Conctroller {
         String userInfo = HttpClientUtil.doPost(userInfoUrl, map, "utf-8");
         JSONObject userInfoJson = JSONObject.fromObject(userInfo);
         log.info("获取到的用户基本信息是：{}", userInfoJson);
-        ActorUser actor = actorService.getActorUserByOrgAndOpenid(org, openid);
-        if (actor == null) {
-            actor = new ActorUser();
-            // 存储用户
-            actor.setUid(UUID.randomUUID().toString().replaceAll("-", ""));
-            actor.setOrgId(StringUtils.defaultString(org, "0"));
-            actor.setStatus(0);
-            wxInfoTrans2User(userInfo, actor);
 
-            int successnNUm = actorService.insertActorUserWxInfo(actor);
-            log.info("保存微信用户结果：{}", (successnNUm == 1 ? "Ok" : "No"));
-        }
-
-        if (!userInfo.equals(actor.getWxBody())) {
-            ActorUser actorTmp = new ActorUser();
-            wxInfoTrans2User(userInfo, actorTmp);
-            int x = actorService.updateActorUserWxInfo(actorTmp);
-            log.info("更新微信用户结果：{}", (x == 1 ? "Ok" : "No"));
-            try {
-                // 将最新的用户信息放出去
-                BeanUtils.copyProperties(actorTmp, actor);
-                actor.setNickName(URLDecoder.decode(actor.getNickName(), "utf-8"));
-            } catch (Exception e) {
-                log.error("昵称转化错误：{}", actor);
-            }
-        }
+        // 存储用户
+        ActorUser actor = new ActorUser();
+        actor.setUid(UUID.randomUUID().toString().replaceAll("-", ""));
+        actor.setOrgId(StringUtils.defaultString(org, "0"));
+        actor.setOpenid(openid);
+        actor.setGender(userInfoJson.getString("sex"));
+        actor.setHeadImg(userInfoJson.getString("headimgurl"));
+        actor.setStatus(0);
+        actor.setNickName(userInfoJson.getString("nickname"));
+        int successnNUm = actorService.insertActorUserWxInfo(actor);
+        log.info("保存微信用户结果：{}", (successnNUm == 1 ? "Ok" : "No"));
 
         // 放出去信息
         request.getSession().setAttribute("orgInfo", orgInfo);
@@ -218,22 +200,11 @@ public class Oauth2Conctroller {
     @RequestMapping("oauth/test")
     public Object test(RedirectAttributes attr, Model model, HttpServletRequest request, HttpServletResponse response) {
         log.info("开始获取code：{}");
-        try {
-            ActorUser actor = actorService.getActorUserByOrgAndOpenid("0", "ovDvrvp5eygR5CVut_8uzHL807V4");
-            int x = actorService.updateActorUserWxInfo(actor);
-            log.info("结果：{}", actor);
-            return null;
-        } catch (Exception e) {
-            log.error("err：{}", e);
-        }
-        return null;
-        /*
-         * OrgInfo orgInfo = new OrgInfo(); orgInfo.setOrgName("阿里巴巴");
-         * request.getSession().setAttribute("orgInfo", orgInfo);
-         * request.getSession().setAttribute("userInfo", new ActorUser("orgId", "肥肥晗",
-         * "openid", "headImg", "wxBody")); return
-         * "redirect:http://localhost:8080/lunck/oauth/info";
-         */
+        OrgInfo orgInfo = new OrgInfo();
+        orgInfo.setOrgName("阿里巴巴");
+        request.getSession().setAttribute("orgInfo", orgInfo);
+        request.getSession().setAttribute("userInfo", new ActorUser("orgId", "肥肥晗", "openid", "headImg", "wxBody"));
+        return "redirect:http://localhost:8080/lunck/oauth/info";
     }
 
     @RequestMapping("oauth/info")
@@ -245,24 +216,5 @@ public class Oauth2Conctroller {
         model.addAttribute("orgInfo", orgInfo);
         model.addAttribute("date", new Date());
         return "oauth/oauthInfo";
-    }
-
-    private void wxInfoTrans2User(String jsonStr, ActorUser actor) {
-        if (actor == null) {
-            actor = new ActorUser();
-        }
-        JSONObject userInfoJson = JSONObject.fromObject(jsonStr);
-        actor.setOpenid(userInfoJson.getString("openid"));
-        String nickName = actor.getName();
-        try {
-            nickName = StringUtils.defaultString(URLEncoder.encode(userInfoJson.getString("nickname"), "utf-8"), nickName);
-        } catch (UnsupportedEncodingException e) {
-            log.error("特殊符号转化错误：{}", userInfoJson.getString("nickname"));
-        }
-        actor.setNickName(nickName);
-        actor.setGender(userInfoJson.getString("sex"));
-        actor.setHeadImg(userInfoJson.getString("headimgurl"));
-        actor.setWxBody(jsonStr);
-        log.info("转化后结果是：{}", JSONObject.fromObject(actor));
     }
 }
