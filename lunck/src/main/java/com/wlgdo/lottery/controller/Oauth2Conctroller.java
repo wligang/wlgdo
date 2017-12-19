@@ -244,6 +244,13 @@ public class Oauth2Conctroller {
         return "oauth/oauthInfo";
     }
 
+    /**
+     * 将微信用户信息转化为user信息
+     * @author Ligang.Wang[wang_lg@suixingpay.com]
+     * @date 2017年12月19日下午3:55:58
+     * @param jsonStr
+     * @param actorvoid
+     */
     private void wxInfoTrans2User(String jsonStr, ActorUser actor) {
         if (actor == null) {
             actor = new ActorUser();
