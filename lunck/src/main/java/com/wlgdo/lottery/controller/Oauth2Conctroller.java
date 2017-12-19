@@ -69,17 +69,18 @@ public class Oauth2Conctroller {
 
     @RequestMapping("oauth/wx/{org}")
     @ResponseBody
-    public Object weiXinAccess(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
-        String signature = request.getParameter("signature");
-        String timestamp = request.getParameter("timestamp");
-        String nonce = request.getParameter("nonce");
-        String echostr = request.getParameter("echostr");
-        log.info("接入接口校验:{},{},{},{},{}", org, signature, timestamp, nonce, echostr);
-        if (StringUtils.isNotBlank(signature)) {
-            log.info("签名串是：{}", signature);
+    public void weiXinTokenValidata(@PathVariable("org") String org, HttpServletRequest request, HttpServletResponse response) {
+        log.info("微信事件处理**********");
+        OrgInfo orgInfo = orgService.getOrgInfoById(Integer.valueOf(org));
+        boolean method = "GET".equals(request.getMethod());
+        if (method) {
+            log.info("接入校验:{}", orgInfo);
+            WeixinUtils.access(request, response, orgInfo);
+            return;
         }
-        String token = DESUtils.encrypt(org, EncryptionUtil.DES_KEY);
-        return PaUtil.access(token, signature, timestamp, nonce, echostr);
+        log.info("微信事件其他事件处理**********");
+        WeixinUtils.message(request, response, orgInfo);
+        log.info("微信事件处理完成*********");
     }
 
     @RequestMapping("oauth/{org}")
