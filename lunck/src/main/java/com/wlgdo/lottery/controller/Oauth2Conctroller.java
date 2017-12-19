@@ -2,7 +2,6 @@ package com.wlgdo.lottery.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -12,6 +11,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,18 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.wlgdo.common.utils.DESUtils;
-import com.wlgdo.common.utils.EncryptionUtil;
 import com.wlgdo.common.utils.HttpClientUtil;
-import com.wlgdo.common.utils.PaUtil;
 import com.wlgdo.common.utils.Resp;
 import com.wlgdo.common.utils.WeixinUtils;
 import com.wlgdo.lottery.domain.ActorUser;
 import com.wlgdo.lottery.domain.OrgInfo;
 import com.wlgdo.lottery.service.ActorService;
 import com.wlgdo.lottery.service.OrgService;
-
-import net.sf.json.JSONObject;
 
 /**
  * 微信授权服务
