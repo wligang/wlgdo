@@ -136,7 +136,7 @@ public class Oauth2Conctroller {
         String accessTokenApi = ACCESS_TOKEN_PAI.replace("APPID", orgInfo.getAppid());
         accessTokenApi = accessTokenApi.replace("SECRET", orgInfo.getAppsecret()).replace("CODE", code);
         String httpOrgCreateTest = accessTokenApi;
-        Map<String, String> createMap = new HashMap<String, String>();
+        Map<String, Object> createMap = new HashMap<String, Object>();
         log.info("获取accesstoken：{}", httpOrgCreateTest);
         String httpOrgCreateTestRtn = HttpClientUtil.doPost(httpOrgCreateTest, createMap, "utf-8");
         log.info("获取的结果是httpOrgCreateTestRtn：{}", httpOrgCreateTestRtn);
@@ -159,7 +159,7 @@ public class Oauth2Conctroller {
         String userInfoUrl = USER_BASE_INFO_API.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
         log.info("获取的结果是jsonObj：{}", userInfoUrl);
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         String userInfo = HttpClientUtil.doPost(userInfoUrl, map, "utf-8");
         JSONObject userInfoJson = JSONObject.fromObject(userInfo);
         log.info("获取到的用户基本信息是：{}", userInfoJson);

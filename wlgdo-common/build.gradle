@@ -8,4 +8,6 @@ dependencies {
 	compile 'org.springframework.data:spring-data-mongodb-log4j:1.7.1.RELEASE'
 	compile 'org.springframework.data:spring-data-commons:1.7.1.RELEASE'
 	compile 'org.springframework:spring-web:4.0.4.RELEASE'
+	compile "org.apache.poi:poi:3.14-beta1"
+	compile "org.apache.poi:poi-ooxml:3.14"
 }

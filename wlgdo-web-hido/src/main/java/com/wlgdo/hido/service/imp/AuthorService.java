@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.wlgdo.hido.common.FileUtilz;
+import com.wlgdo.common.utils.FileUtilz;
 import com.wlgdo.hido.common.RandomStrUtils;
 import com.wlgdo.hido.common.mongo.MongoGenDao;
 import com.wlgdo.hido.domain.SuggestPo;

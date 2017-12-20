@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,7 +22,7 @@ import net.sf.json.JSONObject;
  * 利用HttpClient进行post请求的工具类 
  */
 public class HttpClientUtil {
-    public static String doPost(String url, Map<String, String> map, String charset) {
+    public static String doPost(String url, Map<String, Object> map, String charset) {
         HttpClient httpClient = null;
         HttpPost httpPost = null;
         String result = null;
@@ -76,7 +77,9 @@ public class HttpClientUtil {
         data.put("orgName", orgName);
         data.put("awardName", awardName);
         json.put("data", data);
-        String httpOrgCreateTestRtn = doPost(url, MapUtils.objectToMap(new HashMap<String, String>(), json), "utf-8");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map = MapUtils.objectToMap(map, json);
+        String httpOrgCreateTestRtn = doPost(url, map, "utf-8");
         System.out.println("result:" + httpOrgCreateTestRtn);
     }
 }

@@ -26,6 +26,7 @@ println "###################### env is $env ######################"
 sourceSets.main.resources.srcDirs = ["src/main/resources", "src/main/environment/$env"]
 
 dependencies {
+ 		compile project(":wlgdo-common")
 		compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
 		compile 'org.springframework:spring-beans:4.2.8.RELEASE'
 		compile 'org.springframework:spring-jdbc:3.2.16.RELEASE'
