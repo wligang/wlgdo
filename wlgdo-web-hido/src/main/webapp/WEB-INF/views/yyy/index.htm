@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Hi do · 摇一摇</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/red.js"></script>
+</head>
+<body>
+<!-- 红包音乐 -->
+<audio id="shakemusic" src="music/red-01.mp3" style="display: none;"></audio>
+<audio id="openmusic" src="music/red-02.mp3" style="display: none;"></audio>
+<!-- End 红包音乐 -->
+<!-- 红包 -->
+<div class="red_bg">
+	<div class="red-ts"></div>
+	<div class="red-ss-bg">
+		<span class="red-ss animated"></span>
+	</div>
+	<div class="red-jh ret-btn" >
+		您还有<span class='last-time'>0</span>次机会
+	</div>
+	<div class="red-tc">
+		<!-- 已中奖 -->
+		<div class="red-yzj" style="display: none;">
+			<div class="red-tc-k">
+				<p class="jok-title">受伤的蜗牛</p>
+				<p class="jok-text">乌龟受伤，让蜗牛去买药。过了两个小时，蜗牛还没回来。乌龟急了，骂道：“他妈的再不回来老子就死了!”这时门外传来了蜗牛的声音：“你他妈再说老子不去了!</p>
+			</div>
+			<div class="red-tc-btn">
+				<button>再摇一摇</button>
+			</div>
+		</div>
+		<!-- End 已中奖 -->
+		<!-- 未中奖 -->
+		<div class="red-yzj" style="display: none;">
+			<div class="red-tc-k">
+				<img src="img/red-bw.png">
+				唉吆！</br>您今天10次机会用完了，注册Hi do可以获取更多精彩内容哦！
+			</div>
+			<div class="red-tc-btn red-close-btn"> <button>暂不</button><button>注册</button></div>
+<!-- 			<div class="red-tc-btn sign-up-btn"> <button>前往</button> </div> -->
+		</div> 
+		<!-- End 未中奖 -->
+		<!-- 机会用光了 -->
+		<div class="red-yzj" style="display: none;">
+			<div class="red-tc-k">
+				<img src="img/red-jh.png">
+				机会用光了哦！</br>明天再来吧！
+			</div>
+			<div class="red-tc-btn">
+				<button>返回主页</button>
+			</div>
+		</div> 
+		<!-- End 机会用光了 -->
+	</div>
+</div>
+<!-- End 红包 -->
+<script type="text/javascript">
+	shakeEvent();
+	var jokes=[];
+	jokes.push({title:"美人鱼",text:"有两个渔夫在海边打鱼，一天一个渔夫打上来一条美人鱼，鱼尾巴以上是个超级美女，但是渔夫想了想把她放了，另一个渔夫不解，问：Why?第一个渔夫耸耸肩，答道：How?"});
+	jokes.push({title:"锄禾日当午",text:'办公室里女白领要男同事讲一个既短小又有内涵的黄段子。男士沉思片刻说了八个字：“我是锄禾，你是当午!”'});
+	jokes.push({title:"输得精光",text:'老婆打麻将至凌晨回家，为了不扰醒丈夫，她先在客厅里脱光了衣服再进卧室。恰遇丈夫醒来，见了大怒到:太过份了!你竟输的精光?'});
+	jokes.push({title:"受伤的蜗牛",text:'接到上头通知出差，我于是去了外地近一个月。回来后饥渴难耐的跟女友一番亲热。做完后女友表扬我说，还是你更厉害。 听完我欣慰的笑了，毕竟女友很少表扬我。'});
+	jokes.push({title:"这辈子太短",text:'一对结婚多年的夫妻，睡到半夜，先生突然转身紧紧抱住太太，说:这辈子太短了。太太醒了过来，感动地掉下热泪。先生接着说:我都盖不到脚了！'});
+	jokes.push({title:"口味太重",text:'问一对男女：如果死后，在奈何桥看到孟婆，给你喝孟婆汤，你说什么？女友：不要让我忘掉亲人，好吗？男友：不要香菜和葱花，谢谢！'});
+	jokes.push({title:"网络太慢",text:'一女生上课时见一男生睡觉，就给她男友发短信：我旁边的男生睡的像死猪，口水还流了一滩，好好笑哦！结果网络不好她男朋友半夜才收到这条短信……'});
+	jokes.push({title:"吃瓜群众",text:'一对夫妻刚刚吵完架，妻子为此还在愤愤不平！ 突然妻子转头问她的小儿子：“如果爸爸妈妈吵架，你要站在哪一边？” 孩子想了一下，坚定地说：“站旁边！”'});
+	jokes.push({title:"康师傅",text:'今晚轮到女友做饭了。女友端来一个托盘说：想吃啥请翻牌子。看到托盘上有四个牌子上面写到：香菇炖鸡，葱烧排骨，番茄牛腩，红烧牛肉。我说都要可以吗？女友说：可以就怕你吃不了。我说吃不了你就不给我零花钱了！不一会女友端上来四碗康师傅方便面。'});
+	jokes.push({title:"黑色幽默",text:'新任女朋友用手帮我撸，感觉很爽。 问到：你手上功夫那么好啊。 她说：多年锻炼出来的，熟能生巧嘛。 我说：哎哟，你阅男无数啊。 她幽幽地说：不是，我曾经也是个男的。'});
+	jokes.push({title:"爆炸的暖水瓶",text:'上学时和同学一起去打热水，回宿舍路上暖瓶吱吱的响。 我说：“不好要炸啦。” 　这哥们嗖的一声把暖瓶扔出去了，嘭，果然炸了。 　这哥们心有余悸的说：“还好我扔的快，没炸到我。”‍‍‍‍'});
+	jokes.push({title:"带劲的电熨斗",text:'小时候和我妈去裁缝店，我妈指着电熨斗说：“这东西很烫，千万不要用手碰！” 我很听话，没用手碰，我舔了一下。 那感觉比冬天舔黑龙江漠河北极村的铁栏杆还带劲！'});
+	jokes.push({title:"大圣哭了",text:'来表哥家吃饭，小侄子一边看西游记一边手舞足蹈上蹦下跳学猴哥。 我哥：“傻儿子，你是孙悟空吗？” 　侄子：“正是，你孙爷爷在此。” 打到现在还在哭。'});
+	jokes.push({title:"任性的女朋友",text:'你永远不知道女人在想什么。 　今天上午，和女朋友一起考试，她给我扔了个小纸条，你没猜错，被监考老师发现了。 监考老师狠狠的瞪着我，打开一看，纸条上写了5个字――中午吃什么，老师脸都绿了。'});
+	
+	$(".red-tc-btn").on("click",function(){
+		$('.red-tc').css('display', 'none');
+		f=0;
+	})
+	
+	
+	$(".ret-btn").on("click",function(){
+// 		$('.red-tc').css('display', 'block');
+// 		$(".red-yzj").eq(loaddata()).show();
+	})
+	
+	
+	$(".red-close-btn").on("click",function(){
+		$('.red-yzj').css('display', 'none');
+	});
+	
+	$(".sign-up-btn").on("click",function(){
+		window.location.href="/mob/index.do";
+	})
+	var myDate=new Date();
+	var storkey=myDate.getMonth()+"-"+myDate.getDate();
+// 	window.localStorage.clear();
+	var myStorage = window.localStorage;
+// 	myStorage.setItem(storkey,10);
+	if(myStorage.getItem(storkey)==null){
+			myStorage.setItem(storkey,10);
+	}
+	var jktime=parseInt(myStorage.getItem(storkey));
+	$(".last-time").html(jktime>0?jktime:0);
+	//定义摇一摇中奖
+	var index=parseInt(10*Math.random());
+	function loaddata(){
+		loadtime();
+		$(".red-yzj").hide();
+		jktime=parseInt(myStorage.getItem(storkey));
+		$(".last-time").html(jktime-1>0?jktime-1:0);
+		index+=1;
+		if(index>10){
+			index=parseInt(10*Math.random());
+		}
+		if(jktime<0){
+			$(".red-yzj>.red-tc-btn>button").css('width','50%');
+			return 1;
+		}
+		myStorage.setItem(storkey,jktime-1);
+		if(jktime>0){
+			$(".jok-title").html(jokes[index].title);
+			$(".jok-text").html(jokes[index].text);
+			return 0;
+		}else{
+			$(".red-yzj>.red-tc-btn>button").css('width','50%');
+			return 1;
+		}
+	}
+	var f=0;
+	$(document).ready(function() {
+		if (window.DeviceMotionEvent){
+			var speed = 25;
+			var audio = document.getElementById("shakemusic");
+			var openAudio = document.getElementById("openmusic");
+			var x = t = z = lastX = lastY = lastZ = 0;
+			window.addEventListener('devicemotion',
+				function () {
+					var acceleration = event.accelerationIncludingGravity;
+					x = acceleration.x;
+					y = acceleration.y;
+					if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed) {
+						//开始摇晃
+						if(f!=0){
+							return false;
+						}
+						f=1;
+						audio.play();
+						$('.red-ss').addClass('wobble');
+						
+						setTimeout(function(){
+							audio.pause();
+							openAudio.play();
+							$('.red-tc').css('display', 'block');
+							$(".red-yzj").eq(loaddata()).show();
+							$('.red-ss').removeClass('wobble');
+						}, 1500);
+						
+						
+					};
+					lastX = x;
+					lastY = y;
+				},false);
+		};
+	});
+
+
+	//摇一摇的次数
+	function shakeEvent(){
+		$.ajax({
+			url:"/act/acttime.do",
+			data:{actid:'1'},
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				console.log('保存成功');
+			},
+			error:function(data){
+				console.log(data);
+			},
+			complete:function(xml){
+				console.log(xml);
+			}
+		});  	
+	}	
+	
+// 	点击次数
+	function loadtime(){
+		$.ajax({
+			url:"/act/loadtime.do",
+			data:{actid:'1'},
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				console.log('成功参与一次');
+			},
+			error:function(data){
+				console.log(data);
+			},
+			complete:function(xml){
+				console.log(xml);
+			}
+		});  	
+		
+	}
+	
+	
+	
+	
+</script>
+</body>
+</html>

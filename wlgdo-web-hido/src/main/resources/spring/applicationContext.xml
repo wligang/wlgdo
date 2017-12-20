@@ -17,6 +17,8 @@
                 http://www.springframework.org/schema/util 
                 http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 	default-autowire="byName">
+	
+	<util:properties id="props" location="classpath:config.properties" />
 
 	<!-- 配置json -->
 	<bean id="mappingJacksonHttpMessageConverter"
@@ -27,16 +29,7 @@
 				<value>application/json;charset=UTF-8</value>
 			</list>
 		</property>
-	</bean>
-	
-	<!-- property加载器 -->
-	<context:property-placeholder location="classpath:config.properties"  ignore-unresolvable="true"  />
-	<util:list id="propertiesLoader">
-		<value>classpath:config.properties</value>
-	</util:list>
-	<bean id="propertyConfigurer" class="com.wlgdo.common.utils.PropertiesUtil"
-		p:ignoreResourceNotFound="true" p:systemPropertiesMode="1"
-		p:locations-ref="propertiesLoader">
+
 	</bean>
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
