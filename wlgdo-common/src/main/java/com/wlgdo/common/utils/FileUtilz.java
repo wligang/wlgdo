@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.wlgdo.common.utils;
 
 import java.io.File;

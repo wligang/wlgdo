@@ -18,6 +18,7 @@
                 http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 	default-autowire="byName">
 
+	<util:properties id="props" location="classpath:config.properties" />
 	<!-- 配置json -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">

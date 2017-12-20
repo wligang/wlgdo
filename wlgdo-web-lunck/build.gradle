@@ -1,29 +1,10 @@
-ext.env = hasProperty("env") ? env : "dev"
-println "###################### env is $env ######################"
-    apply plugin: 'java'
-    apply plugin: 'war'
-    apply plugin: 'eclipse-wtp'
-    apply plugin: 'eclipse'
+group = 'com.wlgdo'
+version = '2'
 
-    repositories {
-        maven {url "http://maven.aliyun.com/nexus/content/groups/public"}
-    }
+war{
+    baseName = 'lunck'
+}
 
-    dependencies {
-        testCompile 'junit:junit:4.8.2'
-    }
-	group = 'com.wlgdo'
-	version = '2'
-
-	war{
-	    baseName = 'lunck'
-	}
-
-    jar {
-        manifest.attributes provider: 'wlgdo'
-    }
-    
-sourceSets.main.resources.srcDirs = ["src/main/resources", "src/main/environment/$env"]
 
 dependencies {
  		compile project(":wlgdo-common")
@@ -78,6 +59,5 @@ dependencies {
 	    //分页工具
 	    compile "com.github.pagehelper:pagehelper:4.1.6"
 		
-		
 }
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+

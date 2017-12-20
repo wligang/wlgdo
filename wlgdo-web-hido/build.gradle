@@ -1,36 +1,13 @@
-ext.env = hasProperty("env") ? env : "dev"
-println "###################### env is $env ######################"
-    apply plugin: 'java'
-    apply plugin: 'war'
-    apply plugin: 'eclipse-wtp'
-    apply plugin: 'eclipse'
+group = 'com.wlgdo'
+version = '1'
 
-    repositories {
-        maven {url "http://maven.aliyun.com/nexus/content/groups/public"}
-    }
-
-    dependencies {
-        testCompile 'junit:junit:4.8.2'
-    }
-	group = 'com.wlgdo'
-	version = '1'
-
-	war{
-	    baseName = 'apt37'
-	}
-
-    jar {
-        manifest.attributes provider: 'wlgdo'
-    }
-    
-sourceSets.main.resources.srcDirs = ["src/main/resources", "src/main/environment/$env"]
+war{
+    baseName = 'hido'
+}
 
 dependencies {
 	    compile project(":wlgdo-common")
 	    
-		compile 'org.springframework:spring-beans:4.2.8.RELEASE'
-		compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
-		compile 'org.springframework:spring-beans:4.2.8.RELEASE'
 		compile 'org.springframework:spring-jdbc:3.2.16.RELEASE'
 		
 		//mybaties
@@ -43,8 +20,6 @@ dependencies {
 		compile 'taglibs:standard:1.1.2'
 
 		
-		//log
-		//compile 'log4j:log4j:1.2.17'
 		compile 'org.slf4j:slf4j-api:1.7.21'
 		compile 'org.slf4j:slf4j-log4j12:1.7.21'
 		compile 'commons-collections:commons-collections:3.2.1'
@@ -56,13 +31,11 @@ dependencies {
 		compile 'org.mybatis:mybatis-spring:1.2.2'
 		
 		
-			//mongodb
+		//mongodb
 		compile 'org.mongodb:mongo-java-driver:2.13.0-rc0'
 		compile 'org.springframework.data:spring-data-mongodb:1.9.4.RELEASE'
 		compile 'org.springframework.data:spring-data-mongodb-cross-store:1.7.1.RELEASE'
 		compile 'org.springframework.data:spring-data-mongodb-log4j:1.7.1.RELEASE'
 		compile 'org.springframework.data:spring-data-commons:1.7.1.RELEASE'
 		
-		
 }
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

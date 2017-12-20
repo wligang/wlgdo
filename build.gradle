@@ -1,12 +1,30 @@
+ext.repositoryUrl = "http://maven.aliyun.com/nexus/content/";
+ext.env = hasProperty("env") ? env : "dev"
+println "###################### env is $env ######################"
 subprojects {
     apply plugin: 'java'
     apply plugin: 'war'
     apply plugin: 'eclipse-wtp'
     apply plugin: 'eclipse'
 
+     sourceCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+    
     repositories {
-       mavenCentral()
+       maven{ url "$repositoryUrl/groups/public" }
     }
+    
+    sourceSets.main.resources.srcDirs = ["src/main/resources", "src/main/environment/$env"]
+
+    jar {
+       from('src/main/java') {
+          include "**/*"
+          exclude "**/*.java"
+	   }
+	}
+}
+
+configure(subprojects.findAll{it.name != 'wlgdo-api' }) {
 
     dependencies {
         testCompile 'junit:junit:4.8.2'
@@ -22,11 +40,25 @@ subprojects {
 		
 		compile 'net.sf.json-lib:json-lib:2.4:jdk15'
 		compile 'org.apache.httpcomponents:httpclient:4.5.3'
+		
+		compile 'org.springframework:spring-beans:4.2.8.RELEASE'
+		compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
+		compile 'org.springframework:spring-beans:4.2.8.RELEASE'
     }
+}
 
-    version = '1.0'
-
-    jar {
-        manifest.attributes provider: 'my cool company'
+configure(subprojects.findAll{it.name.contains("wlgdo-web")}) {
+    apply plugin: "war"
+    webAppDirName = "src/main/webapp"
+    eclipse {
+        wtp {
+            facet {
+                facet name: "jst.java", version: "1.8"
+                facet name: "jst.web", version: "3.0"
+                facet name: "wst.jsdt.web", version: "1.0"
+            }
+        }
+        project{
+        }
     }
 }
