@@ -7,7 +7,7 @@
     </appender>
     <appender name="server" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/apps/logs/lunck/%d{yyyyMMdd}/server.log.%i
+            <fileNamePattern>/home/apps/logs/hido/%d{yyyyMMdd}/server.log.%i
             </fileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -23,7 +23,7 @@
             <level>ERROR</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/apps/logs/lunck/%d{yyyyMMdd}/error.log.%i
+            <fileNamePattern>/home/apps/logs/hido/%d{yyyyMMdd}/error.log.%i
             </fileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
