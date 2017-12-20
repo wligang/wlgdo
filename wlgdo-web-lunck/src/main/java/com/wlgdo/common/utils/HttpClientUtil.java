@@ -76,7 +76,7 @@ public class HttpClientUtil {
         data.put("awardName", awardName);
         json.put("data", data);
 
-        String httpOrgCreateTestRtn = doPost(url, MapUtils.objectToMap(new HashMap<String, String>(), json), "utf-8");
+        String httpOrgCreateTestRtn = doPost(url, MapUtils.objectToMap(new Map<String, String>(), json), "utf-8");
         System.out.println("result:" + httpOrgCreateTestRtn);
     }
 }
