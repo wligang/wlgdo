@@ -10,8 +10,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Hi do</title>
-    <link rel="stylesheet" href=/apt37/static/f7/css/framework7.ios.css>
-    <link rel="stylesheet" href=/apt37/static/f7/css/my-app.css>
+    <link rel="stylesheet" href=${ctx}/static/f7/css/framework7.ios.css>
+    <link rel="stylesheet" href=${ctx}/static/f7/css/my-app.css>
 <html>
 <body>
 	 <div class="views">

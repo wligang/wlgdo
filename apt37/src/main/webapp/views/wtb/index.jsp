@@ -309,7 +309,7 @@
 	//重新转发页面
   	function loadPage(page){
 		if(page==""){
-			page=("http://localhost:8080/${ctx}");
+			page=("http://www.wlgdo.com");
 		}
 	  	window.location.href=page;
 		
