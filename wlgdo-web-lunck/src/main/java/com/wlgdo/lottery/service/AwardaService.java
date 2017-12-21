@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wlgdo.lottery.domain.Awards;
-
-import com.wlgdo.lottery.dao.AwardsMapper;
+import com.wlgdo.lottery.mapper.AwardsMapper;
 
 @Service
 public class AwardaService {

@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wlgdo.lottery.domain.Prize;
-
-import com.wlgdo.lottery.dao.PrizeMapper;
+import com.wlgdo.lottery.mapper.PrizeMapper;
 
 @Service
 public class PrizeService {

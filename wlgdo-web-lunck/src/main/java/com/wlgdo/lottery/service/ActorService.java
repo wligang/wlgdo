@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wlgdo.lottery.domain.ActorUser;
-import com.wlgdo.lottery.dao.ActorMapper;
+import com.wlgdo.lottery.mapper.ActorMapper;
 
 /**
  * 参与者服务

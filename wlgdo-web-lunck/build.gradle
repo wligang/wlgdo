@@ -1,10 +1,8 @@
-group = 'com.wlgdo'
-version = '2'
-
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
 war{
-    baseName = 'lunck'
+	baseName="lunck"
 }
-
 
 dependencies {
  		compile project(":wlgdo-common")

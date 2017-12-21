@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wlgdo.lottery.dao.OrgMapper;
 import com.wlgdo.lottery.domain.OrgInfo;
+import com.wlgdo.lottery.mapper.OrgMapper;
 
 @Service
 public class OrgService {

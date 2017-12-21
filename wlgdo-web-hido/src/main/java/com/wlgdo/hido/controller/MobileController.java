@@ -1,6 +1,7 @@
 package com.wlgdo.hido.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,35 +15,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wlgdo.common.utils.SpringUtils;
 import com.wlgdo.hido.domain.EssayPo;
 import com.wlgdo.hido.domain.UserPo;
+import com.wlgdo.hido.mapper.LoginMapper;
 import com.wlgdo.hido.service.IEssayService;
-
 
 @Controller
 @RequestMapping("/mob")
 public class MobileController {
 	static final Logger log = LoggerFactory.getLogger(MobileController.class);
-	
+
 	@Autowired
 	private IEssayService essayService;
-	
+
 	/**
-	 * 也用后台主页面 
+	 * 也用后台主页面
+	 * 
 	 * @author wlg 2016年12月11日
 	 * @return ModelAndView
 	 */
 	@RequestMapping("index.do")
-	public ModelAndView login() {
-		ModelAndView model = new ModelAndView();
+	public String login() {
 		log.info("-----------进入后台应用页面-------");
-		model.setViewName("/views/wtb/index.jsp");
-		
-		return model;
+
+		Map<String, Object> map = SpringUtils.getBean(LoginMapper.class).login("");
+		log.info("查询结果：{}", map);
+
+		return "login";
 	}
-	
+
 	/**
 	 * 应用页面转发
+	 * 
 	 * @author wlg 2016年12月11日
 	 * @param request
 	 * @param response
@@ -50,28 +55,26 @@ public class MobileController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("forward.do")
-	public ModelAndView forward(HttpServletRequest request, HttpServletResponse response,Model model) {
+	public ModelAndView forward(HttpServletRequest request, HttpServletResponse response, Model model) {
 		ModelAndView mview = new ModelAndView();
-		String id=request.getParameter("id");
+		String id = request.getParameter("id");
 		StringUtils.isNotBlank(request.getParameter(""));
-		log.info("开始转发页面：{}",id);
-		
-		switch(id){
-			case "culture": 
-				Object r = request.getSession().getAttribute(BaseController.USER_MP);
-				System.out.println(r);
-				List<EssayPo> lsit=essayService.queryEssayListByid((String)request.getSession().getAttribute("uid"),StringUtils.isNotBlank(request.getParameter("flat")));
-				mview.addObject("datalist", lsit);
-				break;
+		log.info("开始转发页面：{}", id);
+
+		switch (id) {
+		case "culture":
+			Object r = request.getSession().getAttribute(BaseController.USER_MP);
+			System.out.println(r);
+			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"),
+					StringUtils.isNotBlank(request.getParameter("flat")));
+			mview.addObject("datalist", lsit);
+			break;
 		}
-		
-		
+
 		StringUtils.defaultString(id, "welcome");
-		mview.setViewName("/views/wtb/"+id+".jsp");
-		mview.addObject("user",(UserPo)request.getSession().getAttribute(AuthorController.USER_INFO));
+		mview.setViewName("/views/wtb/" + id + ".jsp");
+		mview.addObject("user", (UserPo) request.getSession().getAttribute(AuthorController.USER_INFO));
 		return mview;
 	}
-
-
 
 }

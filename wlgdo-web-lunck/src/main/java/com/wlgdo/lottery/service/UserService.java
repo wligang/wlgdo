@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wlgdo.common.model.User;
-
-import com.wlgdo.lottery.dao.UserMapper;
+import com.wlgdo.lottery.mapper.UserMapper;
 
 @Service
 public class UserService {

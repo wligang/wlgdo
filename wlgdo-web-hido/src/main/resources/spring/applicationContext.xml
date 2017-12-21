@@ -37,7 +37,7 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
 	<import resource="spring-base.xml" />
-<!-- 	<import resource="spring-mybaties.xml" /> -->
+	<import resource="spring-mybaties.xml" />
 	<import resource="spring-mongodb.xml" />
 
 </beans>

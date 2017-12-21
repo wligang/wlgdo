@@ -22,17 +22,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wlgdo.common.utils.FileUtilz;
-import com.wlgdo.common.utils.PropertiesUtil;
+import com.wlgdo.common.utils.PropertiesUtils;
 import com.wlgdo.hido.service.IAuthorService;
 import com.wlgdo.hido.domain.UserPo;
-
 
 @Controller
 @RequestMapping("/auth")
 public class AuthorController extends BaseController {
 	static final Logger log = LoggerFactory.getLogger(AuthorController.class);
 
-	private static final String FILE_BASE_PATH = PropertiesUtil.prop("data_path");
+	private static final String FILE_BASE_PATH = PropertiesUtils.getVal("data_path");
 	private static final String HEADER_PATH = "header/";
 	public static final String USER_INFO = "user";
 
@@ -146,8 +145,7 @@ public class AuthorController extends BaseController {
 	 */
 	@RequestMapping("upImg.do")
 	@ResponseBody
-	public Map upheadImg(MultipartFile file, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	public Map upheadImg(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map map = new HashMap<String, Object>();
 		String uid = (String) request.getSession().getAttribute("uid");
 		map.put("retCd", -1);

@@ -30,15 +30,6 @@
 		</property>
 	</bean>
 	
-	<!-- property加载器 -->
-	<context:property-placeholder location="classpath:config.properties"  ignore-unresolvable="true"  />
-	<util:list id="propertiesLoader">
-		<value>classpath:config.properties</value>
-	</util:list>
-	<bean id="propertyConfigurer" class="com.wlgdo.common.utils.PropertiesUtil"
-		p:ignoreResourceNotFound="true" p:systemPropertiesMode="1"
-		p:locations-ref="propertiesLoader">
-	</bean>
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
