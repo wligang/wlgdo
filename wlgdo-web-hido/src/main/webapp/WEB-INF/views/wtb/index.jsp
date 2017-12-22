@@ -112,13 +112,13 @@
               <div class="content-block-title">Hi do 应用</div>
               <div class="list-block">
                 <ul>
-                <%--   <li><a href="${ctx}/mob/forward.do?id=about" class="item-link">
+                <%--   <li><a href="${ctx}/mob/forward?id=about" class="item-link">
                       <div class="item-content">
                         <div class="item-inner"> 
                           <div class="item-title"></div>
                         </div>
                       </div></a></li> --%>
-     <%--              <li><a href="${ctx}/mob/forward.do?id=services" class="item-link">
+     <%--              <li><a href="${ctx}/mob/forward?id=services" class="item-link">
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">应用中心</div>
@@ -126,16 +126,16 @@
                       </div></a></li>
                   --%>
                   <li> 
-                  <a href="#" onclick="loadPage('${ctx}/mob/forward.do?id=culture');" class="item-link"  data-ignore-cache="true" >
-<%--                   <a href="${ctx}/mob/forward.do?id=culture" class="item-link"  data-ignore-cache="true" > --%>
+                  <a href="#" onclick="loadPage('${ctx}/mob/forward?id=culture');" class="item-link"  data-ignore-cache="true" >
+<%--                   <a href="${ctx}/mob/forward?id=culture" class="item-link"  data-ignore-cache="true" > --%>
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">个人中心</div>
                         </div>
                       </div></a></li>
                   <li> 
-                  <a href="#" onclick="loadPage('${ctx}/act/words.do');" class="item-link"  data-ignore-cache="true" >
-<%--                   <a href="${ctx}/mob/forward.do?id=culture" class="item-link"  data-ignore-cache="true" > --%>
+                  <a href="#" onclick="loadPage('${ctx}/act/words');" class="item-link"  data-ignore-cache="true" >
+<%--                   <a href="${ctx}/mob/forward?id=culture" class="item-link"  data-ignore-cache="true" > --%>
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">你说我猜</div>
@@ -194,7 +194,7 @@
 	
   	//定义注册
 	$$('.sign-up').on('click', function () {
-	  	mainView.router.loadPage('${ctx}/auth/page.do?id=/views/wtb/signup');
+	  	mainView.router.loadPage('${ctx}/auth/page?id=/views/wtb/signup');
 	  	myApp.closeModal();
 	});
 	
@@ -211,7 +211,7 @@
 				 return false;
 			}
   			$$.ajax({
-				url:"${ctx}/auth/login.do",
+				url:"${ctx}/auth/login",
 				data:data,
 				type:"POST",
 				dataType:"json",
@@ -234,7 +234,7 @@
 	
 		$$(".login-out").on("click",function(){
   			$$.ajax({
-				url:"${ctx}/auth/exit.do",
+				url:"${ctx}/auth/exit",
 				data:{},
 				type:"POST",
 				dataType:"json",
@@ -243,7 +243,7 @@
 					if(data.retCd==0){
 						myApp.closeModal();
 						myApp.loginScreen();
-						mainView.router.loadPage('${ctx}/auth/page.do?id=/login');
+						mainView.router.loadPage('${ctx}/auth/page?id=/login');
 					} 
 				},
 				error:function(data){
@@ -347,7 +347,7 @@
 // 	点击次数
 	function loadtime(){
 		$$.ajax({
-			url:"${ctx}/act/loadtime.do",
+			url:"${ctx}/act/loadtime",
 			data:{actid:'0'},
 			type:"POST",
 			dataType:"json",

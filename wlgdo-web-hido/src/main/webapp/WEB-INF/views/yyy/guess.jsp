@@ -48,6 +48,7 @@
 	
 	
 <script type="text/javascript">
+	
 	var colors = [ 'rebeccapurple', 'royalblue', 'chocolate', 'goldenrod', 'forestgreen','lightskyblue', 'yellowgreen','peru' ];
 	
 	

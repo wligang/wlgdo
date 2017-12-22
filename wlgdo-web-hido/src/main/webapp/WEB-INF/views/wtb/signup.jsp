@@ -11,7 +11,7 @@
 </div>
 <div class="pages">
 	<div data-page="signup" class="page">
-		<form action="${ctx}/auth/reg.do" id="reg-form" method="post" class="ajax-submit store-data reg-form">
+		<form action="${ctx}/auth/reg" id="reg-form" method="post" class="ajax-submit store-data reg-form">
 			<div class="page-content">
 				<div class="content-block-title">regist info </div>
 				<div class="list-block">

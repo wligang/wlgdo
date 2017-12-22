@@ -26,21 +26,20 @@ import com.wlgdo.hido.service.IEssayService;
  * @author wlg 2016年12月31日
  */
 @Controller
-@RequestMapping("/essay")
 public class EssayController extends BaseController{
 	static final Logger log = LoggerFactory.getLogger(EssayController.class);
 
 	@Autowired
 	private IEssayService essayService;
 
-	@RequestMapping("query.do")
+	@RequestMapping("essay/query")
 	public ModelAndView login(HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		log.info("文章展示");
 		List<EssayPo> lsit=essayService.queryEssayListByid((String)request.getSession().getAttribute("uid"),false);
 		
 		model.addObject("datalist", lsit);
-		model.setViewName("/views/wtb/culture.jsp");
+		model.setViewName("/wtb/culture");
 		return model;
 	}
 
@@ -54,7 +53,7 @@ public class EssayController extends BaseController{
 	 * @param model
 	 * @return Object
 	 */
-	@RequestMapping("save.do")
+	@RequestMapping("essay/save")
 	@ResponseBody
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, EssayPo essay) {
 		log.info("用户提交文章：{}", essay);
@@ -80,7 +79,7 @@ public class EssayController extends BaseController{
 	 * @param model
 	 * @return Object
 	 */
-	@RequestMapping("edit.do")
+	@RequestMapping("essay/edit")
 	@ResponseBody
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String suggest = request.getParameter("suggest");
@@ -99,7 +98,7 @@ public class EssayController extends BaseController{
 	 * @param model
 	 * @return Object
 	 */
-	@RequestMapping("zan.do")
+	@RequestMapping("essay/zan")
 	@ResponseBody
 	public Object addZan(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String essayId = request.getParameter("id");
@@ -118,7 +117,7 @@ public class EssayController extends BaseController{
 	 * @param model
 	 * @return Object
 	 */
-	@RequestMapping("addComment.do")
+    @RequestMapping("essay/addComment")
 	@ResponseBody
 	public Object addComment(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String essayId = request.getParameter("id");

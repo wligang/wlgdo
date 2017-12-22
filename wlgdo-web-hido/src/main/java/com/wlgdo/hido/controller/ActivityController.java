@@ -14,14 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.wlgdo.common.utils.Resp;
+import com.wlgdo.common.utils.Resp.RespCode;
 import com.wlgdo.hido.service.IActivityService;
 import com.wlgdo.hido.service.IAuthorService;
 
 @Controller
-@RequestMapping("/act")
-public class ActivityController extends BaseController {
+public class ActivityController {
     static final Logger      log = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
@@ -29,22 +29,6 @@ public class ActivityController extends BaseController {
 
     @Autowired
     private IActivityService activityService;
-
-    @RequestMapping("sent.do")
-    public ModelAndView login() {
-        ModelAndView model = new ModelAndView();
-        log.info("start sent");
-        model.setViewName("/index.jsp");
-        return model;
-    }
-
-    @RequestMapping("exit.do")
-    public ModelAndView exit() {
-        ModelAndView model = new ModelAndView();
-
-        model.setViewName("/author/authorSuccess.jsp");
-        return model;
-    }
 
     /**
      * 建议入口
@@ -55,7 +39,7 @@ public class ActivityController extends BaseController {
      * @param model
      * @return Object
      */
-    @RequestMapping("suggest.do")
+    @RequestMapping("act/suggest")
     @ResponseBody
     public Object getSuggest(HttpServletRequest request, HttpServletResponse response, Model model) {
         String suggest = request.getParameter("suggest");
@@ -82,7 +66,7 @@ public class ActivityController extends BaseController {
      * @param model
      * @return Object
      */
-    @RequestMapping("acttime.do")
+    @RequestMapping("act/acttime")
     @ResponseBody
     public Object acttime(HttpServletRequest request, HttpServletResponse response, Model model) {
         String actid = request.getParameter("actid");
@@ -102,7 +86,7 @@ public class ActivityController extends BaseController {
      * @param model
      * @return Object
      */
-    @RequestMapping("loadtime.do")
+    @RequestMapping("act/loadtime")
     @ResponseBody
     public Object loadtime(HttpServletRequest request, HttpServletResponse response, Model model) {
         String actid = request.getParameter("actid");
@@ -123,7 +107,7 @@ public class ActivityController extends BaseController {
      * @param model
      * @return Object
      */
-    @RequestMapping("loadjokes.do")
+    @RequestMapping("act/loadjokes")
     @ResponseBody
     public Object loadjokes(HttpServletRequest request, HttpServletResponse response, Model model) {
         String actid = request.getParameter("actid");
@@ -134,7 +118,7 @@ public class ActivityController extends BaseController {
         return map;
     }
 
-    @RequestMapping("addWord.do")
+    @RequestMapping("/act/addWord")
     @ResponseBody
     public Object addWord(HttpServletRequest request, HttpServletResponse response, Model model) {
         String actid = StringUtils.defaultString(request.getParameter("actid"), "3");
@@ -142,20 +126,18 @@ public class ActivityController extends BaseController {
         String uid = StringUtils.defaultString((String) request.getSession().getAttribute("uid"), "0");
         String words = request.getParameter("words");
         String[] wordArr = activityService.addWords(words, uid);
-        Map<String, Object> map = this.retMap;
-        return map;
+        return new Resp(RespCode.SUCCESS, wordArr);
     }
 
-    @RequestMapping("words.do")
-    public ModelAndView queryActWords(HttpServletRequest request, HttpServletResponse response, Model model) {
+    @RequestMapping("/act/words")
+    public String queryActWords(HttpServletRequest request, HttpServletResponse response, Model model) {
         String actid = StringUtils.defaultString(request.getParameter("actid"), "3");
         log.info("查询关键词:id:{}", actid);
         String uid = StringUtils.defaultString((String) request.getSession().getAttribute("uid"), "0");
         String words = request.getParameter("words");
         String[] maplist = activityService.queryWords(words, uid);
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/views/yyy/guess.jsp");
-        return mv;
+        model.addAttribute("", maplist);
+        return "/yyy/guess";
     }
 
 }

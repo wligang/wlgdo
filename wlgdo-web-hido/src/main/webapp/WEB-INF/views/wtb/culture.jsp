@@ -352,7 +352,7 @@
 	
   	//放回前一页
   	$$(".page-index").on("click",function(){
-  		window.location.href='${ctx}/mob/index.do';
+  		window.location.href='${ctx}/mob/index';
   	})
 	
 	//生成图片组件
@@ -401,7 +401,7 @@
   		}
   		var data={'context':$$(".context-cls").val(),'imgurl':imags.join("###"),"isOpen":isopen};
 	  	$$.ajax({
-				url:"${ctx}/essay/save.do",
+				url:"${ctx}/essay/save",
 				data:data,
 				type:"POST",
 				dataType:"json",
@@ -434,7 +434,7 @@
   			var userkey="${user.uid}";
   			console.log(userkey);
   		  	$$.ajax({
-				url:"${ctx}/essay/zan.do",
+				url:"${ctx}/essay/zan",
 				data:{id:dataid},
 				type:"POST",
 				dataType:"json",
@@ -483,7 +483,7 @@
   				return false;
   			}
   			$$.ajax({
-				url:"${ctx}/essay/addComment.do",
+				url:"${ctx}/essay/addComment",
 				data:{id:essayId,context:context},
 				type:"POST",
 				dataType:"json",

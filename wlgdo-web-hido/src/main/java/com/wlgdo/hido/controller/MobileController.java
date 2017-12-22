@@ -22,59 +22,58 @@ import com.wlgdo.hido.mapper.LoginMapper;
 import com.wlgdo.hido.service.IEssayService;
 
 @Controller
-@RequestMapping("/mob")
 public class MobileController {
-	static final Logger log = LoggerFactory.getLogger(MobileController.class);
+    static final Logger   log = LoggerFactory.getLogger(MobileController.class);
 
-	@Autowired
-	private IEssayService essayService;
+    @Autowired
+    private IEssayService essayService;
 
-	/**
-	 * 也用后台主页面
-	 * 
-	 * @author wlg 2016年12月11日
-	 * @return ModelAndView
-	 */
-	@RequestMapping("index.do")
-	public String login() {
-		log.info("-----------进入后台应用页面-------");
+    /**
+     * 也用后台主页面
+     * 
+     * @author wlg 2016年12月11日
+     * @return ModelAndView
+     */
+    @RequestMapping("mob/index")
+    public String login() {
+        log.info("-----------进入后台应用页面-------");
 
-		Map<String, Object> map = SpringUtils.getBean(LoginMapper.class).login("");
-		log.info("查询结果：{}", map);
+        Map<String, Object> map = SpringUtils.getBean(LoginMapper.class).login("");
+        log.info("查询结果：{}", map);
 
-		return "login";
-	}
+        return "login";
+    }
 
-	/**
-	 * 应用页面转发
-	 * 
-	 * @author wlg 2016年12月11日
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return ModelAndView
-	 */
-	@RequestMapping("forward.do")
-	public ModelAndView forward(HttpServletRequest request, HttpServletResponse response, Model model) {
-		ModelAndView mview = new ModelAndView();
-		String id = request.getParameter("id");
-		StringUtils.isNotBlank(request.getParameter(""));
-		log.info("开始转发页面：{}", id);
+    /**
+     * 应用页面转发
+     * 
+     * @author wlg 2016年12月11日
+     * @param request
+     * @param response
+     * @param model
+     * @return ModelAndView
+     */
+    @RequestMapping("mob/forward")
+    public ModelAndView forward(HttpServletRequest request, HttpServletResponse response, Model model) {
+        ModelAndView mview = new ModelAndView();
+        String id = request.getParameter("id");
+        StringUtils.isNotBlank(request.getParameter(""));
+        log.info("开始转发页面：{}", id);
 
-		switch (id) {
-		case "culture":
-			Object r = request.getSession().getAttribute(BaseController.USER_MP);
-			System.out.println(r);
-			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"),
-					StringUtils.isNotBlank(request.getParameter("flat")));
-			mview.addObject("datalist", lsit);
-			break;
-		}
+        switch (id) {
+            case "culture":
+                Object r = request.getSession().getAttribute(BaseController.USER_MP);
+                System.out.println(r);
+                List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"),
+                    StringUtils.isNotBlank(request.getParameter("flat")));
+                mview.addObject("datalist", lsit);
+                break;
+        }
 
-		StringUtils.defaultString(id, "welcome");
-		mview.setViewName("/views/wtb/" + id + ".jsp");
-		mview.addObject("user", (UserPo) request.getSession().getAttribute(AuthorController.USER_INFO));
-		return mview;
-	}
+        StringUtils.defaultString(id, "welcome");
+        mview.setViewName("/wtb/" + id + ".jsp");
+        mview.addObject("user", (UserPo) request.getSession().getAttribute(AuthorController.USER_INFO));
+        return mview;
+    }
 
 }
