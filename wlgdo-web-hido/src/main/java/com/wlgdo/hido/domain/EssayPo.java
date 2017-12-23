@@ -3,15 +3,10 @@ package com.wlgdo.hido.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.mysql.fabric.xmlrpc.base.Array;
 /**
  * @author wlg
  */
 public class EssayPo{
-	
-	private final int Essay_type=0;//默认为文本
-	private final int Essay_isOpen=0;//默认为公开
 	
 	private String uid;
 	private String id;

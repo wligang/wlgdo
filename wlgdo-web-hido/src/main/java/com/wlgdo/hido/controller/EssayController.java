@@ -1,8 +1,6 @@
 package com.wlgdo.hido.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.wlgdo.common.utils.Resp;
 import com.wlgdo.common.utils.Resp.RespCode;
@@ -23,9 +20,10 @@ import com.wlgdo.hido.domain.EssayPo;
 import com.wlgdo.hido.service.IEssayService;
 
 /**
- * 文章业务
  * 
- * @author wlg 2016年12月31日
+ *
+ * @author Ligang.Wang[wlgchun@163.com]
+ * @date 2017年12月23日下午8:20:07
  */
 @Controller
 public class EssayController extends BaseController {
@@ -35,15 +33,27 @@ public class EssayController extends BaseController {
 	@Autowired
 	private IEssayService essayService;
 
-	@RequestMapping("essay/query")
-	public ModelAndView essayList(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView model = new ModelAndView();
-		log.info("文章展示");
-		List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"), false);
+	@RequestMapping("essay/open")
+	public String essayList(HttpServletRequest request, Model model) {
+		log.info("展示所有公开的文章");
+		EssayPo essay = new EssayPo();
+		essay.setIsOpen(0);
+		List<EssayPo> lsit = essayService.queryEssayList(essay);
+		model.addAttribute("datalist", lsit);
+		return "wtb/essayList";
+	}
 
-		model.addObject("datalist", lsit);
-		model.setViewName("/wtb/culture");
-		return model;
+	@RequestMapping("essay")
+	public String essayList(HttpServletRequest request, HttpServletResponse response, Model model) {
+		log.info("个人中心文章展示");
+		String uid = (String) request.getSession().getAttribute("uid");
+		if (StringUtils.isBlank(uid)) {
+			log.info("个人中心未登录");
+			return "login";
+		}
+		List<EssayPo> lsit = essayService.queryEssayListByid(uid, false);
+		model.addAttribute("datalist", lsit);
+		return "/wtb/culture";
 	}
 
 	/**
@@ -60,18 +70,16 @@ public class EssayController extends BaseController {
 	@ResponseBody
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, EssayPo essay) {
 		log.info("用户提交文章：{}", essay);
-		Map<String, Object> map = new HashMap<>();
 		String uid = (String) request.getSession().getAttribute("uid");
 		if (StringUtils.isBlank(uid)) {
 			return new Resp(RespCode.LOGIN_ERROR.getCode(), "请先登录");
 		}
 
-		essay.setUid((String) request.getSession().getAttribute("uid"));
+		essay.setUid(uid);
 		if (StringUtils.isBlank(essay.getImgurl()) && StringUtils.isBlank(essay.getContext())) {
-			map.put("retCd", -1);
-			map.put("msg", "图片和文字不能同时为空");
 			return new Resp(RespCode.LOGIN_ERROR.getCode(), "图片和文字不能同时为空");
 		}
+
 		// 开始保存
 		essayService.saveEssay(essay);
 		return new Resp(RespCode.SUCCESS, essay);
@@ -109,9 +117,14 @@ public class EssayController extends BaseController {
 	public Object addZan(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String essayId = request.getParameter("id");
 		String uid = getUserId(request, response);
-		log.info("用户:{}在赞:{}", essayId, uid);
-		int zanNum = essayService.saveEssayZan(essayId, uid);
-		return getRetMap(zanNum, zanNum > -1 ? zanNum : -1, "操作成功");
+		int zanNum = 0;
+		if (StringUtils.isBlank(uid)) {
+			log.info("未登录的用在点赞");
+		} else {
+			log.info("用户:{}在赞:{}", essayId, uid);
+			zanNum = essayService.saveEssayZan(essayId, uid);
+		}
+		return new Resp(RespCode.SUCCESS, zanNum);
 	}
 
 	/**

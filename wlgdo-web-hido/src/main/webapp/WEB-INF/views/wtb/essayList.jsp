@@ -114,7 +114,7 @@
 						<div class="left">
 							<a href="#" class="back link page-index"> <i class="icon icon-back"></i><span>back</span></a>
 						</div>
-						<div class="center" style="left: 0px;">动态</div>
+						<div class="center" style="left: 0px;">${'社区'}动态</div>
 						<div class="right">
 							<span style='float: right'> </span> 
 							<a href="#" class="link icon-only open-links"> <i class="icon icon-bars"></i></a>
@@ -122,7 +122,7 @@
 					</div>
 				</div>
 				<div class="page-content">
-					<div class="content-block-title">${user.accname ne '' ? user.accname:'我的'}动态</div>
+					<div class="content-block-title">${'社区'}动态</div>
 					<div class="card">
 						<div class="card-content">
 
@@ -481,8 +481,6 @@
 		$$(".link-comment").on("click",function(){
 			$$(".comment-msg-"+$$(this).attr("data-id")).focus();
 		})
-			
-		
 		
 		
   		$$(".comment-btn").on("click",function(){
@@ -526,6 +524,7 @@
   	
   	zanEvent();
   	commentEvent();
+  	
   </script>
   <script src="${ctx}/static/js/jquery-3.1.1.min.js"></script>
   <script src="${ctx}/static/js/readerfileutil.js"></script>

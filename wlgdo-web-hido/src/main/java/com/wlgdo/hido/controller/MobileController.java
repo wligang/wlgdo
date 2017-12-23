@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.wlgdo.hido.domain.EssayPo;
 import com.wlgdo.hido.domain.UserPo;
@@ -62,15 +61,14 @@ public class MobileController {
 	@RequestMapping("mob/forward")
 	public String forward(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String id = request.getParameter("id");
-
+		String uid = (String) request.getSession().getAttribute("uid");
 		log.info("开始转发页面：{}", id);
 		boolean isOwner = StringUtils.isNotBlank(request.getParameter("flat"));
 		switch (id) {
 		case "culture":
 			Object r = request.getSession().getAttribute(BaseController.USER_MP);
 			log.info("用户：{}", r);
-			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"), isOwner);
-
+			List<EssayPo> lsit = essayService.queryEssayListByid(uid, isOwner);
 			model.addAttribute("datalist", lsit);
 			break;
 		}

@@ -1,7 +1,9 @@
 package com.wlgdo.hido.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,8 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wlgdo.common.utils.FileUtilz;
 import com.wlgdo.common.utils.PropertiesUtils;
-import com.wlgdo.hido.service.IAuthorService;
 import com.wlgdo.hido.domain.UserPo;
+import com.wlgdo.hido.service.IAuthorService;
 
 @Controller
 public class AuthorController extends BaseController {
@@ -137,27 +140,6 @@ public class AuthorController extends BaseController {
 	}
 
 	/**
-	 * 上传头像
-	 * 
-	 * @author wlg 2016年12月11日
-	 * @param request
-	 * @return Map
-	 */
-	@RequestMapping("auth/upImg")
-	@ResponseBody
-	public Map upheadImg(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Map map = new HashMap<String, Object>();
-		String uid = (String) request.getSession().getAttribute("uid");
-		map.put("retCd", -1);
-		String fpath = FileUtilz.upload(file, FILE_BASE_PATH + HEADER_PATH, uid);
-		log.info("文件地址：{}", fpath);
-		if (fpath != null) {
-			map.put("retCd", 0);
-		}
-		return map;
-	}
-
-	/**
 	 * 图片上传
 	 * 
 	 * @author wlgdo[wlgchun@163.com] 2016年12月25日
@@ -220,5 +202,37 @@ public class AuthorController extends BaseController {
 		ModelAndView model = new ModelAndView();
 		log.info("页面通道去:{}", id);
 		return id.replaceFirst("views/", "");
+	}
+
+	@RequestMapping("auth/upImg")
+	@ResponseBody
+	public Map upheadImg(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Map map = new HashMap<String, Object>();
+		String uid = (String) request.getSession().getAttribute("uid");
+		map.put("retCd", -1);
+		String fpath = FileUtilz.upload(file, FILE_BASE_PATH + HEADER_PATH, uid);
+		log.info("文件地址：{}", fpath);
+		if (fpath != null) {
+			map.put("retCd", 0);
+		}
+		return map;
+	}
+
+	@RequestMapping("img/{uid}")
+	@ResponseBody
+	public void img(@PathVariable("uid") String uid, HttpServletRequest request, HttpServletResponse response) {
+		log.info("用户ID :{}", uid);
+		String headImagePath = new StringBuilder(FILE_BASE_PATH).append(HEADER_PATH).append("###").append(".png").toString();
+		try {
+			FileUtilz.imageToBase64(headImagePath.replaceFirst("###", uid), response);
+		} catch (IOException e) {
+			log.error("获取头像失败，设置默认：{}", e);
+			try {
+				FileUtilz.imageToBase64(headImagePath.replaceFirst("###", "0"), response);
+			} catch (IOException e1) {
+				log.error("获取头像失败，设置默认：{}", e);
+				e1.printStackTrace();
+			}
+		}
 	}
 }

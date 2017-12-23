@@ -66,15 +66,20 @@ public class EssayService extends MongoGenDao<EssayPo> implements IEssayService 
 		Query query = new Query(criteria);
 		Order orders = new Order(Direction.DESC, "cTime");
 		query.with(new Sort(orders));
-		// query.with(new Sort(new Order(Direction.DESC,"age")));
 		list = this.mongoTemplate.find(query, EssayPo.class);
 		return list;
 	}
 
 	@Override
 	public List<EssayPo> queryEssayList(EssayPo essay) {
-		Query query = new Query();
-		return this.mongoTemplate.find(query, EssayPo.class);
+		// 如果是不公开的
+		Criteria criteria = Criteria.where("isOpen").is(essay.getIsOpen());
+		Query query = new Query(criteria);
+		Order orders = new Order(Direction.DESC, "cTime");
+		query.with(new Sort(orders));
+		List<EssayPo> list = this.mongoTemplate.find(query, EssayPo.class);
+		log.info("查询文章里列表是大小：{}", list.size());
+		return list;
 	}
 
 	@Override

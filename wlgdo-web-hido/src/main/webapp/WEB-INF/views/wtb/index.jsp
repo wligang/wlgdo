@@ -126,11 +126,18 @@
                       </div></a></li>
                   --%>
                   <li> 
-                  <a href="#" onclick="loadPage('${ctx}/mob/forward?id=culture');" class="item-link"  data-ignore-cache="true" >
+                  <a href="#" onclick="loadPage('${ctx}/essay');" class="item-link"  data-ignore-cache="true" >
 <%--                   <a href="${ctx}/mob/forward?id=culture" class="item-link"  data-ignore-cache="true" > --%>
                       <div class="item-content"> 
                         <div class="item-inner">
-                          <div class="item-title">动态列表</div>
+                          <div class="item-title">个人中心</div>
+                        </div>
+                      </div></a></li>
+                  <a href="#" onclick="loadPage('${ctx}/essay/open');" class="item-link"  data-ignore-cache="true" >
+<%--                   <a href="${ctx}/mob/forward?id=culture" class="item-link"  data-ignore-cache="true" > --%>
+                      <div class="item-content"> 
+                        <div class="item-inner">
+                          <div class="item-title">社区动态</div>
                         </div>
                       </div></a></li>
                   <li> 
@@ -166,7 +173,7 @@
             	<c:if test="${login eq true}">
   					<li><a href="#" class="list-button item-link login-out">Sign Out</a></li>
   				</c:if>
-  				<c:if test="${login eq false}">
+  				<c:if test="${login ne true}">
 					<li><a href="#" class="list-button item-link open-login-screen" >Sign In</a></li>
 				</c:if>
 				<li><a href="#" class="list-button item-link sign-up">Sign Up</a></li>
