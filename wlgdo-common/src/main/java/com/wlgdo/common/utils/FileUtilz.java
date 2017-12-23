@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
@@ -90,25 +91,33 @@ public class FileUtilz extends FileUtils {
 		if (imgStr == null) // 图像数据为空
 			return false;
 		BASE64Decoder decoder = new BASE64Decoder();
+		OutputStream out = null;
 		try {
 			// Base64解码
-			String img = imgStr.replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,", "");
+			String img = imgStr;// .replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,",
+								// "");
 			byte[] b = decoder.decodeBuffer(img);
 			for (int i = 0; i < b.length; ++i) {
 				if (b[i] < 0) {// 调整异常数据
 					b[i] += 256;
 				}
 			}
-			// 生成jpeg图片
-			OutputStream out = new FileOutputStream(FILE_BASE_PATH + targetImgPath + ".png");
+			out = new FileOutputStream(FILE_BASE_PATH + targetImgPath + ".png");
 			out.write(b);
 			out.flush();
 			out.close();
-			log.info("文件保存成功{}", targetImgPath);
+			log.info("头像文件保存成功{}", targetImgPath);
 			return true;
 		} catch (Exception e) {
-			log.error("64字节转文件失败{}", e);
+			log.error("头像文件保存失败{}", e);
 			return false;
+		} finally {
+			try {
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -129,11 +138,27 @@ public class FileUtilz extends FileUtils {
 			in.close();
 		} catch (IOException e) {
 			log.error("文件转64位字节码异常：{}", e);
-			;
 		}
 		// 对字节数组Base64编码
 		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+	}
+
+	public static void imageToBase64(String imgSrcPath, ServletResponse response) throws IOException {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+		// 获取输出流
+		String JPG = "image/png;charset=GB2312";
+		File file = new File(imgSrcPath);
+		OutputStream outputStream = response.getOutputStream();
+		FileInputStream fileInputStream = new FileInputStream(file);
+		// 读数据
+		byte[] data = new byte[fileInputStream.available()];
+		fileInputStream.read(data);
+		fileInputStream.close();
+		// 回写
+		response.setContentType(JPG);
+		outputStream.write(data);
+		outputStream.flush();
+		outputStream.close();
 	}
 
 	/**

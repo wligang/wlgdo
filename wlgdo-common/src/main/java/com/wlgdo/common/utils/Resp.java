@@ -10,7 +10,11 @@ package com.wlgdo.common.utils;
 public class Resp {
     public enum RespCode {
 
-        SUCCESS("0", "SUCCESS"), FAIL("-1", "FAIL"), PARAM_ERROR("-2", "FAIL"), SERVICE_ERROR("-500", "服务异常");
+        SUCCESS("0", "SUCCESS"), 
+        FAIL("-1", "FAIL"),
+        PARAM_ERROR("-2", "FAIL"), 
+        LOGIN_ERROR("-3", "NOT_LOGIN"), 
+        SERVICE_ERROR("-500", "SERVICE_ERROR");
 
         RespCode(String code, String msg) {
             this.code = code;
