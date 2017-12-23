@@ -21,8 +21,7 @@ import com.wlgdo.hido.service.IAuthorService;
 @Service
 public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService {
 
-	static final Logger log = LoggerFactory.getLogger(AuthorService.class);
-
+	Logger log = LoggerFactory.getLogger(getClass());
 	@Override
 	public List<Map<String, Object>> queryData(String sql) {
 		return new ArrayList<>();
@@ -89,9 +88,9 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 	}
 
 	/**
-	 * 妫�鏌ョ敤鎴峰垪琛�
+	 * 查找用户列表
 	 * 
-	 * @author wlgdo[wlgchun@163.com] 2017骞�1鏈�1鏃�
+	 * @author wlgdo[wlgchun@163.com]
 	 * @param key
 	 * @param value
 	 * @return boolean
@@ -100,7 +99,7 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 	public List<UserPo> findUserList(String uid, boolean b) {
 		Query query = new Query(Criteria.where("uid").exists(true));
 		List<UserPo> lsit = mongoTemplate.find(query, UserPo.class);
-		log.info("鑾峰彇鐢ㄦ埛鍒楄〃鏄細{}", lsit);
+		log.info("查找用户列表{}", lsit);
 		return lsit;
 	}
 

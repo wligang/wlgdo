@@ -12,8 +12,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Hi do</title>
     <!-- Path to Framework7 Library CSS-->
-    <link rel="stylesheet" href=/apt37/static/f7/css/framework7.ios.css>
-    <link rel="stylesheet" href=/apt37/static/f7/css/my-app.css>
+    <link rel="stylesheet" href=${ctx}/static/f7/css/framework7.ios.css>
+    <link rel="stylesheet" href=${ctx}/static/f7/css/my-app.css>
     <!-- Path to your custom app styles-->
  	<style type="text/css">
  		.panel{
@@ -130,7 +130,7 @@
 <%--                   <a href="${ctx}/mob/forward?id=culture" class="item-link"  data-ignore-cache="true" > --%>
                       <div class="item-content"> 
                         <div class="item-inner">
-                          <div class="item-title">个人中心</div>
+                          <div class="item-title">动态列表</div>
                         </div>
                       </div></a></li>
                   <li> 
@@ -309,7 +309,7 @@
 	//重新转发页面
   	function loadPage(page){
 		if(page==""){
-			page=("http://www.wlgdo.com");
+			page=("http://"+window.location.host);
 		}
 	  	window.location.href=page;
 		

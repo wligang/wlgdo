@@ -22,12 +22,13 @@ import com.wlgdo.hido.service.IEssayService;
 
 /**
  * 动态业务类
+ * 
  * @author wlg 2017年1月7日
  */
 @Service
 public class EssayService extends MongoGenDao<EssayPo> implements IEssayService {
 
-	static final Logger log = LoggerFactory.getLogger(EssayService.class);
+	Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public EssayPo saveEssay(EssayPo esaay) {
@@ -40,7 +41,7 @@ public class EssayService extends MongoGenDao<EssayPo> implements IEssayService 
 			} else if (StringUtils.isNotBlank(esaay.getContext())) {
 				esaay.setType(2);// 图
 			}
-			
+
 			esaay.setcTime(new Date());
 			esaay.setId(RandomStrUtils.getRandomSting(8));
 			this.mongoTemplate.save(esaay);
@@ -63,9 +64,9 @@ public class EssayService extends MongoGenDao<EssayPo> implements IEssayService 
 			criteria = Criteria.where("isOpen").is(0);
 		}
 		Query query = new Query(criteria);
-		Order orders=new Order(Direction.DESC, "cTime");
-		query.with(new Sort(orders));  
-//		query.with(new Sort(new Order(Direction.DESC,"age")));  
+		Order orders = new Order(Direction.DESC, "cTime");
+		query.with(new Sort(orders));
+		// query.with(new Sort(new Order(Direction.DESC,"age")));
 		list = this.mongoTemplate.find(query, EssayPo.class);
 		return list;
 	}
@@ -123,7 +124,7 @@ public class EssayService extends MongoGenDao<EssayPo> implements IEssayService 
 		try {
 			EssayPo essayPo = findObjectById(essayId, new EssayPo());
 			if (essayPo != null) {
-				if(essayPo.getCommenList()==null){
+				if (essayPo.getCommenList() == null) {
 					essayPo.setCommenList(new ArrayList<>());
 				}
 				CommentPo commPo = new CommentPo(context, essayId, uid);

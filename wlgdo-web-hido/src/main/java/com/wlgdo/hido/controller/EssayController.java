@@ -26,18 +26,19 @@ import com.wlgdo.hido.service.IEssayService;
  * @author wlg 2016年12月31日
  */
 @Controller
-public class EssayController extends BaseController{
-	static final Logger log = LoggerFactory.getLogger(EssayController.class);
+public class EssayController extends BaseController {
 
+	Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private IEssayService essayService;
 
 	@RequestMapping("essay/query")
-	public ModelAndView login(HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView essayList(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		log.info("文章展示");
-		List<EssayPo> lsit=essayService.queryEssayListByid((String)request.getSession().getAttribute("uid"),false);
-		
+		List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"), false);
+
 		model.addObject("datalist", lsit);
 		model.setViewName("/wtb/culture");
 		return model;
@@ -58,13 +59,13 @@ public class EssayController extends BaseController{
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, EssayPo essay) {
 		log.info("用户提交文章：{}", essay);
 		Map<String, Object> map = new HashMap<>();
-		essay.setUid((String)request.getSession().getAttribute("uid"));
-		if(StringUtils.isBlank(essay.getImgurl()) && StringUtils.isBlank(essay.getContext())){
+		essay.setUid((String) request.getSession().getAttribute("uid"));
+		if (StringUtils.isBlank(essay.getImgurl()) && StringUtils.isBlank(essay.getContext())) {
 			map.put("retCd", -1);
 			map.put("msg", "图片和文字不能同时为空");
 			return map;
 		}
-		//开始保存
+		// 开始保存
 		essayService.saveEssay(essay);
 		map.put("retCd", 0);
 		map.put("essay", essay);
@@ -73,6 +74,7 @@ public class EssayController extends BaseController{
 
 	/**
 	 * 编辑信息
+	 * 
 	 * @author wlgdo[wlgchun@163.com] 2016年12月31日
 	 * @param request
 	 * @param response
@@ -88,11 +90,12 @@ public class EssayController extends BaseController{
 		log.info("收到页面发来的建议：{}", suggest);
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 * 保存
-	 * @author wlgdo[wlgchun@163.com] 2017年1月7日 
+	 * 
+	 * @author wlgdo[wlgchun@163.com] 2017年1月7日
 	 * @param request
 	 * @param response
 	 * @param model
@@ -103,29 +106,30 @@ public class EssayController extends BaseController{
 	public Object addZan(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String essayId = request.getParameter("id");
 		String uid = getUserId(request, response);
-		log.info("用户:{}在赞:{}",essayId ,uid);
-		int zanNum=essayService.saveEssayZan(essayId,uid);
-		return getRetMap(zanNum,zanNum>-1?zanNum:-1,"操作成功");
+		log.info("用户:{}在赞:{}", essayId, uid);
+		int zanNum = essayService.saveEssayZan(essayId, uid);
+		return getRetMap(zanNum, zanNum > -1 ? zanNum : -1, "操作成功");
 	}
-	
+
 	/**
 	 * 
 	 * 保存
-	 * @author wlgdo[wlgchun@163.com] 2017年1月7日 
+	 * 
+	 * @author wlgdo[wlgchun@163.com] 2017年1月7日
 	 * @param request
 	 * @param response
 	 * @param model
 	 * @return Object
 	 */
-    @RequestMapping("essay/addComment")
+	@RequestMapping("essay/addComment")
 	@ResponseBody
 	public Object addComment(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String essayId = request.getParameter("id");
-		String uid = getUserId(request,response);
-		String context=(String)request.getParameter("context");
-		log.info("用户:{}在评论:{}:{}",uid,essayId ,context);
-		int commNum=essayService.saveComent(context,essayId,uid);
-		return getRetMap(commNum,commNum>-1?commNum:-1,"操作成功");
+		String uid = getUserId(request, response);
+		String context = (String) request.getParameter("context");
+		log.info("用户:{}在评论:{}:{}", uid, essayId, context);
+		int commNum = essayService.saveComent(context, essayId, uid);
+		return getRetMap(commNum, commNum > -1 ? commNum : -1, "操作成功");
 	}
 
 }

@@ -22,10 +22,9 @@ import com.wlgdo.hido.service.IActivityService;
 @Service
 public class ActivityService extends MongoGenDao<EssayPo> implements IActivityService {
 
-	static final Logger log = LoggerFactory.getLogger(ActivityService.class);
+	Logger log = LoggerFactory.getLogger(getClass());
+	public static final String ACT_WORDS = "actWords";
 
-	public static final String ACT_WORDS="actWords";
-	
 	@Override
 	public List<ActivityPo> queryActivityListByid(String actid, boolean isAll) {
 
@@ -53,7 +52,7 @@ public class ActivityService extends MongoGenDao<EssayPo> implements IActivitySe
 	}
 
 	/*
-	 * type0:执行次数  1:参与次数 
+	 * type0:执行次数 1:参与次数
 	 * 
 	 */
 	@Override
@@ -61,8 +60,8 @@ public class ActivityService extends MongoGenDao<EssayPo> implements IActivitySe
 		Query query = new Query(Criteria.where("id").is(actid));
 		try {
 			ActivityPo actpo = this.mongoTemplate.findOne(query, ActivityPo.class);
-			if(actpo==null){
-				actpo=new ActivityPo();
+			if (actpo == null) {
+				actpo = new ActivityPo();
 				actpo.setId(actid);
 				actpo.setLoadtime(0);
 				actpo.setActtime(0);
@@ -84,12 +83,12 @@ public class ActivityService extends MongoGenDao<EssayPo> implements IActivitySe
 			}
 			switch (type) {
 			case 0:
-				actpo.setLoadtime(actpo.getLoadtime()+1);
-				log.info("用户成功参与一次活动,目前:{}",actpo.getLoadtime());
+				actpo.setLoadtime(actpo.getLoadtime() + 1);
+				log.info("用户成功参与一次活动,目前:{}", actpo.getLoadtime());
 				break;
 			case 1:
-				actpo.setActtime(actpo.getActtime()+1);
-				log.info("用户成功执行了一次活动,目前:{}",actpo.getActtime());
+				actpo.setActtime(actpo.getActtime() + 1);
+				log.info("用户成功执行了一次活动,目前:{}", actpo.getActtime());
 				break;
 			}
 			this.mongoTemplate.save(actpo);
@@ -98,58 +97,60 @@ public class ActivityService extends MongoGenDao<EssayPo> implements IActivitySe
 			return -1;
 		}
 
-		return 0;
+		return 1;
 	}
 
-	/* 
-	 * @see com.crit.service.IActivityService#addWords(java.lang.String, java.lang.String)
+	/*
+	 * @see com.crit.service.IActivityService#addWords(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
 	public String[] addWords(String words, String uid) {
-		log.info("保存关键词：{},{}",uid,words);
-		Query query=new Query();
-		if(!"0".equals(uid)){
-			query=new Query(Criteria.where("uid").is(uid));
+		log.info("保存关键词：{},{}", uid, words);
+		Query query = new Query();
+		if (!"0".equals(uid)) {
+			query = new Query(Criteria.where("uid").is(uid));
 		}
 		@SuppressWarnings("rawtypes")
 		List<Map> list = this.mongoTemplate.find(query, Map.class, ACT_WORDS);
-		HashMap<String, Object> word =null;
-		for(String w:words.split("-")){
-			word= new HashMap<String,Object>();
+		HashMap<String, Object> word = null;
+		for (String w : words.split("-")) {
+			word = new HashMap<String, Object>();
 			word.put("wd", w);
 			word.put("uid", uid);
 			list.add(word);
 		}
 		this.mongoTemplate.save(list, ACT_WORDS);
-		
-		List<String> wordlis=new ArrayList<>();
-		for(Map<?, ?> m:list){
-			wordlis.add((String)m.get(""));
+
+		List<String> wordlis = new ArrayList<>();
+		for (Map<?, ?> m : list) {
+			wordlis.add((String) m.get(""));
 		}
-		return wordlis.isEmpty()? null:(String[])wordlis.toArray();
+		return wordlis.isEmpty() ? null : (String[]) wordlis.toArray();
 	}
 
-	/* 
-	 * @see com.crit.service.IActivityService#queryWords(java.lang.String, java.lang.String)
+	/*
+	 * @see com.crit.service.IActivityService#queryWords(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
 	public String[] queryWords(String words, String uid) {
-		log.info("查询关键词uid:{}",uid);
-		Query query=new Query();
-		if(!"0".equals(uid)){
-			query=new Query(Criteria.where("uid").is(uid));
+		log.info("查询关键词uid:{}", uid);
+		Query query = new Query();
+		if (!"0".equals(uid)) {
+			query = new Query(Criteria.where("uid").is(uid));
 		}
-		
+
 		@SuppressWarnings("rawtypes")
 		List<Map> list = this.mongoTemplate.find(query, Map.class, ACT_WORDS);
-		log.info("查询关键词结果:{}",list);
-		List<String> wordlis=new ArrayList<>();
-		//组装类型
-		for(Map<?, ?> m:list){
-			wordlis.add((String)m.get(""));
+		log.info("查询关键词结果:{}", list);
+		List<String> wordlis = new ArrayList<>();
+		// 组装类型
+		for (Map<?, ?> m : list) {
+			wordlis.add((String) m.get(""));
 		}
 		System.out.println(list);
-		return wordlis.isEmpty()? null:(String[])wordlis.toArray();
+		return wordlis.isEmpty() ? null : (String[]) wordlis.toArray();
 	}
 
 }
