@@ -36,7 +36,6 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 		Criteria criteria = Criteria.where("accname").is(user.getAccname()).and("password").is(user.getPassword());
 		// criteria.where("password").is(user.getPassword());
 		user = this.mongoTemplate.findOne(new Query(criteria), UserPo.class);
-		log.info("鐢ㄦ埛鐧婚檰鎴愬姛:{}", user);
 		return user;
 	}
 
@@ -47,29 +46,25 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 			sug.setCtime(new Date());
 			sug.setUtime(new Date());
 			sug.setSuggest(suggest);
-			sug.setAccConnect("鏆傛棤");
-			sug.setActName("鏆傛棤");
+			sug.setAccConnect(connect);
 			this.mongoTemplate.save(sug, "suggests");
-			log.info("淇濆瓨寤鸿瀹屾瘯{}", sug);
 			return true;
 		} catch (Exception e) {
-			log.info("淇濆瓨寤鸿涓�鍦�-exception{}", e);
+			log.error("保存建議出异常了{}-exception{}", suggest, e);
 		}
 		return false;
 	}
 
 	@Override
 	public UserPo saveUserInfo(UserPo user) {
-		// 娣诲姞娉ㄥ唽淇℃伅
-		log.info("寮�濮嬪啓鍏ongdb");
+		log.info("新用戶注冊：{}", user);
 		try {
 			user.setUid(RandomStrUtils.getRandomSting(16));
 			FileUtilz.Base64ToImg(user.getUrl(), "header/" + user.getUid());
-			log.info("鍥剧墖淇濆瓨姝ｅ父锛屽皢鐢ㄦ埛淇濆瓨");
 			user.setUrl("/header/" + user.getUid());
 			this.mongoTemplate.save(user);
 		} catch (Exception e) {
-			log.error("娉ㄥ唽澶辫触{}", e);
+			log.error("新用戶注冊异常了：{}，{}", user, e);
 			return null;
 		}
 		return user;
