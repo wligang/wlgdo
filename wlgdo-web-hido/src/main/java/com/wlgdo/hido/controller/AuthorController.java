@@ -113,8 +113,7 @@ public class AuthorController extends BaseController {
 			return map;
 		}
 
-		// map.put("retCd", authorService.saveUserInfo(user) != null ? 0 : -1);
-		map.put("retCd", -1);
+		map.put("retCd", authorService.saveUserInfo(user) != null ? 0 : -1);
 		request.getSession().setAttribute("login", true);
 		request.getSession().setAttribute("uid", user.getUid());
 		request.getSession().setAttribute(USER_INFO, user);
