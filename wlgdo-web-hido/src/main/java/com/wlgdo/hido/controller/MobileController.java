@@ -30,7 +30,7 @@ public class MobileController {
 	 * @author wlg 2016年12月11日
 	 * @return ModelAndView
 	 */
-	@RequestMapping("mob/index")
+	@RequestMapping("mob")
 	public String login() {
 		log.info("-----------进入后台应用页面-------");
 
@@ -38,6 +38,16 @@ public class MobileController {
 		// log.info("查询结果：{}", map);
 
 		return "login";
+	}
+
+	@RequestMapping("mob/index")
+	public String index() {
+		log.info("-----------进入后台应用页面-------");
+
+		// Map<String, Object> map = SpringUtils.getBean(LoginMapper.class).login("");
+		// log.info("查询结果：{}", map);
+
+		return "wtb/index";
 	}
 
 	/**
@@ -55,11 +65,10 @@ public class MobileController {
 		String id = request.getParameter("id");
 		StringUtils.isNotBlank(request.getParameter(""));
 		log.info("开始转发页面：{}", id);
-
 		switch (id) {
 		case "culture":
 			Object r = request.getSession().getAttribute(BaseController.USER_MP);
-			System.out.println(r);
+			log.info("用户：{}", r);
 			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"),
 					StringUtils.isNotBlank(request.getParameter("flat")));
 			mview.addObject("datalist", lsit);
