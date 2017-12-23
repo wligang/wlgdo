@@ -22,14 +22,12 @@ import com.wlgdo.hido.service.IAuthorService;
 public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService {
 
 	Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Override
 	public List<Map<String, Object>> queryData(String sql) {
 		return new ArrayList<>();
 	}
 
-	/**
-	 * 鏌ヨ鐢ㄦ埛淇℃伅
-	 */
 	@Override
 	public UserPo findUser(UserPo user) {
 		Criteria criteria = Criteria.where("accname").is(user.getAccname()).and("password").is(user.getPassword());
@@ -69,19 +67,11 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 		return user;
 	}
 
-	/**
-	 * 
-	 * 妫�鏌ヨ鐢ㄦ埛鏄惁瀛樺湪
-	 * 
-	 * @author wlgdo[wlgchun@163.com] 2017骞�1鏈�1鏃�
-	 * @param key
-	 * @param value
-	 * @return boolean
-	 */
+
 	public boolean checkUserInfo(String key, Object value) {
 		Query query = new Query(Criteria.where(key).is(value));
 		List<UserPo> list = mongoTemplate.find(query, UserPo.class);
-		if (list != null && list.size() > 0) {// 瀛樺湪
+		if (list != null && list.size() > 0) {
 			return false;
 		}
 		return true;

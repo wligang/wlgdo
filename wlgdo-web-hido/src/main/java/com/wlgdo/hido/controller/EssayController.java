@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wlgdo.common.utils.Resp;
+import com.wlgdo.common.utils.Resp.RespCode;
 import com.wlgdo.hido.domain.EssayPo;
 import com.wlgdo.hido.service.IEssayService;
 
@@ -29,7 +31,7 @@ import com.wlgdo.hido.service.IEssayService;
 public class EssayController extends BaseController {
 
 	Logger log = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private IEssayService essayService;
 
@@ -59,17 +61,20 @@ public class EssayController extends BaseController {
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, EssayPo essay) {
 		log.info("用户提交文章：{}", essay);
 		Map<String, Object> map = new HashMap<>();
+		String uid = (String) request.getSession().getAttribute("uid");
+		if (StringUtils.isBlank(uid)) {
+			return new Resp(RespCode.LOGIN_ERROR.getCode(), "请先登录");
+		}
+
 		essay.setUid((String) request.getSession().getAttribute("uid"));
 		if (StringUtils.isBlank(essay.getImgurl()) && StringUtils.isBlank(essay.getContext())) {
 			map.put("retCd", -1);
 			map.put("msg", "图片和文字不能同时为空");
-			return map;
+			return new Resp(RespCode.LOGIN_ERROR.getCode(), "图片和文字不能同时为空");
 		}
 		// 开始保存
 		essayService.saveEssay(essay);
-		map.put("retCd", 0);
-		map.put("essay", essay);
-		return map;
+		return new Resp(RespCode.SUCCESS, essay);
 	}
 
 	/**
@@ -85,10 +90,8 @@ public class EssayController extends BaseController {
 	@ResponseBody
 	public Object getSuggest(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String suggest = request.getParameter("suggest");
-		Map map = new HashMap<>();
-		map.put("code", -1);
 		log.info("收到页面发来的建议：{}", suggest);
-		return map;
+		return new Resp(RespCode.SUCCESS, suggest);
 	}
 
 	/**

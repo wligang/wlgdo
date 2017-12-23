@@ -86,7 +86,12 @@ public class AuthorController extends BaseController {
 	}
 
 	/**
-	 * 注册
+	 * @author Ligang.Wang[wlgchun@163.com]
+	 * @date 2017年12月23日下午5:33:21
+	 * @param user
+	 * @param model
+	 * @param request
+	 * @return
 	 */
 	@RequestMapping("auth/reg")
 	@ResponseBody

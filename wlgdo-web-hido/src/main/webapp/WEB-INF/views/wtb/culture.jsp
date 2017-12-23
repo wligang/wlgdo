@@ -114,7 +114,7 @@
 						<div class="left">
 							<a href="#" class="back link page-index"> <i class="icon icon-back"></i><span>back</span></a>
 						</div>
-						<div class="center" style="left: 0px;">${user.accname}·动态</div>
+						<div class="center" style="left: 0px;">动态</div>
 						<div class="right">
 							<span style='float: right'> </span> 
 							<a href="#" class="link icon-only open-links"> <i class="icon icon-bars"></i></a>
@@ -128,7 +128,7 @@
 
 							<c:forEach items="${datalist}" var="item">
 								<!-- 判断类型 -->
-								<c:choose >
+								<c:choose>
 									<c:when test="${item.type eq 0 }">
 										<div class="card demo-card-header-pic">
 											<div class="facebook-card">
@@ -406,9 +406,13 @@
 				type:"POST",
 				dataType:"json",
 				success:function(data){
-					if(data && data.retCd==0){
+					if(data && data.code==0){
 						window.location.reload() ;
 // 						myApp.closeModal();
+					}else if(data.code==-3){
+						myApp.alert('对不起，请登录后使用该功能', function(){
+						window.location.href='${ctx}/auth/tologin';
+		  				})
 					}else{
 						myApp.alert("提交失败，请稍后再试！");
 					}

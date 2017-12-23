@@ -61,21 +61,19 @@ public class MobileController {
 	 */
 	@RequestMapping("mob/forward")
 	public String forward(HttpServletRequest request, HttpServletResponse response, Model model) {
-		ModelAndView mview = new ModelAndView();
 		String id = request.getParameter("id");
-		StringUtils.isNotBlank(request.getParameter(""));
+
 		log.info("开始转发页面：{}", id);
+		boolean isOwner = StringUtils.isNotBlank(request.getParameter("flat"));
 		switch (id) {
 		case "culture":
 			Object r = request.getSession().getAttribute(BaseController.USER_MP);
 			log.info("用户：{}", r);
-			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"),
-					StringUtils.isNotBlank(request.getParameter("flat")));
-			mview.addObject("datalist", lsit);
+			List<EssayPo> lsit = essayService.queryEssayListByid((String) request.getSession().getAttribute("uid"), isOwner);
+
+			model.addAttribute("datalist", lsit);
 			break;
 		}
-
-		StringUtils.defaultString(id, "welcome");
 		model.addAttribute("user", (UserPo) request.getSession().getAttribute(AuthorController.USER_INFO));
 		return "/wtb/" + id;
 	}
