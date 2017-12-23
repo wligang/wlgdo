@@ -91,33 +91,25 @@ public class FileUtilz extends FileUtils {
 		if (imgStr == null) // 图像数据为空
 			return false;
 		BASE64Decoder decoder = new BASE64Decoder();
-		OutputStream out = null;
 		try {
 			// Base64解码
-			String img = imgStr;// .replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,",
-								// "");
+			String img = imgStr.replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,", "");
 			byte[] b = decoder.decodeBuffer(img);
 			for (int i = 0; i < b.length; ++i) {
 				if (b[i] < 0) {// 调整异常数据
 					b[i] += 256;
 				}
 			}
-			out = new FileOutputStream(FILE_BASE_PATH + targetImgPath + ".png");
+			// 生成jpeg图片
+			OutputStream out = new FileOutputStream(FILE_BASE_PATH + targetImgPath + ".png");
 			out.write(b);
 			out.flush();
 			out.close();
-			log.info("头像文件保存成功{}", targetImgPath);
+			log.info("文件保存成功{}", targetImgPath);
 			return true;
 		} catch (Exception e) {
-			log.error("头像文件保存失败{}", e);
+			log.error("64字节转文件失败{}", e);
 			return false;
-		} finally {
-			try {
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

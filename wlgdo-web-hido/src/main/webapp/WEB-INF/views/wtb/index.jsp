@@ -279,7 +279,9 @@
   			$$('#headfile').click();
   		})
   		$$('#headfile').on("change",function(){
-  			var d=$$("#headfile").readAsDataURL(handler,$$("#pre_headimg"),"#headimg");
+  			var d=$$("#headfile").readAsDataURL(handler,$$("#pre_headimg"),"#headimg",function(){
+	  			$("#url").val($("#headimg").attr("src"));
+  			});
   		})
   		
   		//提交之前
@@ -287,6 +289,10 @@
   			$$("#sub-btn").attr("disabled","disabled");
   			var accname=$$("input[name='accname']").val();
   			var password=$$("input[name='password']").val();
+  			$("#url").val($("#headimg").attr("src"));
+  			console.log("头像");
+  			var data = e.detail.data;
+  			console.log(data);
   			
   		});
   	

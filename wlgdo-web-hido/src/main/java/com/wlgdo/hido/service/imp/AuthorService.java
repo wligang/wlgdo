@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -57,8 +58,9 @@ public class AuthorService extends MongoGenDao<UserPo> implements IAuthorService
 		log.info("新用戶注冊：{}", user);
 		try {
 			user.setUid(RandomStrUtils.getRandomSting(16));
-			FileUtilz.Base64ToImg(user.getUrl(), "header/" + user.getUid());
-			user.setUrl("/header/" + user.getUid());
+			if(StringUtils.isNotBlank(user.getUrl())) {
+				FileUtilz.Base64ToImg(user.getUrl(), "header/" + user.getUid());
+			}
 			this.mongoTemplate.save(user);
 		} catch (Exception e) {
 			log.error("新用戶注冊异常了：{}，{}", user, e);

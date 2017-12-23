@@ -112,8 +112,9 @@ public class AuthorController extends BaseController {
 			map.put("msg", "该用户名已被注册，请使用别的名称");
 			return map;
 		}
-		map.put("retCd", authorService.saveUserInfo(user) != null ? 0 : -1);
 
+		// map.put("retCd", authorService.saveUserInfo(user) != null ? 0 : -1);
+		map.put("retCd", -1);
 		request.getSession().setAttribute("login", true);
 		request.getSession().setAttribute("uid", user.getUid());
 		request.getSession().setAttribute(USER_INFO, user);

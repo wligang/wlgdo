@@ -94,12 +94,13 @@ Dom7.fn.readAsBinaryString = function(handler) {
 	return this;
 };
 
-Dom7.fn.readAsDataURL = function(handler,preEle,imgEle) {
+Dom7.fn.readAsDataURL = function(handler,preEle,imgEle,callback) {
 	var files = this.files();
 	var reader = null;
 	var imageHandler = function(event) {
-		$$(imgEle).attr("src", event.target.result).appendTo(preEle);
+		debugger;
 		$$("."+imgEle.replace("#","")+"_64").val(event.target.result);
+		$$(imgEle).attr("src", event.target.result);//.appendTo(preEle);
 	};
 	for ( var i = 0; i < files.length; i++) {
 		reader = getFileReader(handler);
@@ -109,6 +110,9 @@ Dom7.fn.readAsDataURL = function(handler,preEle,imgEle) {
 			reader.onload = imageHandler;
 			reader.readAsDataURL(files[i]);
 		}
+	}
+	if(callback && typeof(callback)=="function"){ 
+		callback();
 	}
 	return this;
 };

@@ -11,7 +11,7 @@
 </div>
 <div class="pages">
 	<div data-page="signup" class="page">
-		<form action="${ctx}/auth/reg" id="reg-form" method="post" class="ajax-submit store-data reg-form">
+		<form action="${ctx}/auth/reg" id="reg-form" method="post" class="ajax-submit reg-form">
 			<div class="page-content">
 				<div class="content-block-title">regist info </div>
 				<div class="list-block">
@@ -22,7 +22,7 @@
 									<i class="icon icon-form-name"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Name</div>
+									<div class="item-title label">名称</div>
 									<div class="item-input">
 										<input type="text" name="accname" placeholder="Your name" />
 									</div>
@@ -35,10 +35,10 @@
 									<i class="icon icon-form-url"></i>
 								</div>
 								<div class="item-inner" style="height: 100px;">
-									<div class="item-title label">HeaderImage</div>
+									<div class="item-title label">头像</div>
 									<div class="item-input img-file">
 										<span id="pre_headimg" >
-											<img src="${ctx }/static/f7/img/i-form-name-ios.svg" id="headimg" style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden;">
+											<img src="${ctx }/static/f7/img/i-form-name-ios.svg" id="headimg" name="url" style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden;">
 										</span>
 										<span style="display: none">
 											<input type="file" id="headfile" name="file" accept="image/png,image/jpeg" /> 
@@ -54,7 +54,7 @@
 									<i class="icon icon-form-email"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">E-mail</div>
+									<div class="item-title label">邮箱</div>
 									<div class="item-input">
 										<input type="email" name="email" placeholder="E-mail" />
 									</div>
@@ -67,7 +67,7 @@
 									<i class="icon icon-form-password"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Password</div>
+									<div class="item-title label">密码</div>
 									<div class="item-input">
 										<input type="password" name="password" placeholder="Password" />
 									</div>
@@ -80,7 +80,7 @@
 									<i class="icon icon-form-tel"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Phone</div>
+									<div class="item-title label">电话</div>
 									<div class="item-input">
 										<input type="tel" name="phone" placeholder="Phone" />
 									</div>
@@ -93,7 +93,7 @@
 									<i class="icon icon-form-gender"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Gender</div>
+									<div class="item-title label">性别</div>
 									<div class="item-input">
 										<select>
 											<option>Male</option>
@@ -109,7 +109,7 @@
 									<i class="icon icon-form-calendar"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Birth date</div>
+									<div class="item-title label">生日</div>
 									<div class="item-input">
 										<input type="date" name="birthday" placeholder="Birth day" value="2017-01-01" />
 									</div>
@@ -122,7 +122,7 @@
 									<i class="icon icon-form-toggle"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Switch open</div>
+									<div class="item-title label">是否公开</div>
 									<div class="item-input">
 										<label class="label-switch"> <input type="checkbox" />
 											<div class="checkbox"></div>
@@ -137,7 +137,7 @@
 									<i class="icon icon-form-comment"></i>
 								</div>
 								<div class="item-inner">
-									<div class="item-title label">Signature</div>
+									<div class="item-title label">签名</div>
 									<div class="item-input">
 										<textarea name="declaration">梦想的价值在于去坚持不懈得实现</textarea>
 									</div>
