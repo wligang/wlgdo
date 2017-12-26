@@ -1,1 +1,1 @@
-include "common", "server","lunck","apt37"
+include "wlgdo-common","wlgdo-web-lunck","wlgdo-web-hido"

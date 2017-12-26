@@ -1,0 +1,8 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+dependencies {
+	compile project(':wlgdo-common')
+}
+war{
+	baseName="hido"
+}

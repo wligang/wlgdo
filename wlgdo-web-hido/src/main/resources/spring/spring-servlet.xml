@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<mvc:resources mapping="/static/**" location="/static/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/static/js/**" location="/static/js/" />
+	<mvc:resources mapping="/static/css/**" location="/static/css/" />
+	<mvc:resources mapping="/static/img/**" location="/static/img/" />
+	<mvc:resources mapping="/index.html" location="/index.html" />
+	<mvc:resources mapping="/h/**" location="/h/" />
+	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+
+	<!-- 开启自动扫描 -->
+	<mvc:annotation-driven />
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.wlgdo"	use-default-filters="false">
+		<context:include-filter type="annotation"	expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	<bean class="com.wlgdo.common.utils.SpringUtils" />
+
+	<!-- 完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+							<value>application/json;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
+	<bean id="viewResolverCommon"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="order" value="1" />
+	</bean>
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level-[%msg]-[%logger{36}]-[%thread]%n</pattern>
+        </layout>
+    </appender>
+    <appender name="server" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/apps/%d{yyyyMMdd}/server.log.%i
+            </fileNamePattern>
+            <MaxHistory>10</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>100MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level-[%msg]-[%logger{36}]-[%thread]%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/apps/%d{yyyyMMdd}/error.log.%i
+            </fileNamePattern>
+            <MaxHistory>10</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level-[%msg]-[%logger{36}]-[%thread]%n</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="com.wlgdo" level="info" />
+    <logger name="com.wlgdo.hido.mapper" level="info" />
+    <logger name="org.apache.ibatis" level="debug" />
+    <logger name="org.apache.zookeeper" level="info" />
+    <logger name="org.springframework" level="info" />
+    <logger name="org.springframework.amqp" level="error" />
+    <logger name="ch.qos.logback" level="error" />
+    
+    <root level="info">
+        <appender-ref ref="server" />
+        <appender-ref ref="error" />
+    </root>
+</configuration>
