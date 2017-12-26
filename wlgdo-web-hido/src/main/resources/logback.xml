@@ -36,7 +36,7 @@
 	</appender>
 
 	<logger name="com.wlgdo" level="debug" />
-	<logger name="com.wlgdo.lottery.dao" level="debug" />
+	<logger name="com.wlgdo.hido.mapper" level="debug" />
 	<logger name="org.apache.ibatis" level="debug" />
 	<logger name="org.apache.zookeeper" level="info" />
 	<logger name="org.springframework" level="info" />
