@@ -7,7 +7,7 @@
     </appender>
     <appender name="server" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/apps/logs/lunck/%d{yyyyMMdd}/server.log.%i
+            <fileNamePattern>${catalina.base}/logs/apps/%d{yyyyMMdd}/server.log.%i
             </fileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -23,7 +23,7 @@
             <level>ERROR</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/apps/logs/lunck/%d{yyyyMMdd}/error.log.%i
+            <fileNamePattern>${catalina.base}/logs/apps/%d{yyyyMMdd}/error.log.%i
             </fileNamePattern>
             <MaxHistory>10</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -35,8 +35,8 @@
         </encoder>
     </appender>
     
-    <logger name="com.suixingpay" level="info" />
-    <logger name="com.suixingpay.mkt.dao" level="info" />
+    <logger name="com.wlgdo" level="info" />
+    <logger name="com.wlgdo.lottery.mapper" level="info" />
     <logger name="org.apache.ibatis" level="debug" />
     <logger name="org.apache.zookeeper" level="info" />
     <logger name="org.springframework" level="info" />

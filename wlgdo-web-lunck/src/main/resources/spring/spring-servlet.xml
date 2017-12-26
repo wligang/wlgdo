@@ -19,6 +19,7 @@
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
 
 	<!-- 开启自动扫描 -->
+	<!-- 开启自动扫描 -->
 	<mvc:annotation-driven />
 	<context:annotation-config />
 	
@@ -27,6 +28,8 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
+	
+	<bean class="com.wlgdo.common.utils.SpringUtils" />
 
 	<!-- 完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />

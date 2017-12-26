@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mktdb
+-- Host: 172.16.135.148    Database: mktdb
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.6.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,14 +26,15 @@ CREATE TABLE `t_org` (
   `id` int(11) NOT NULL,
   `org_name` varchar(45) DEFAULT NULL,
   `charge_name` varchar(45) DEFAULT NULL COMMENT '负责人名称',
-  `charge_mobille` varchar(11) NOT NULL COMMENT '机构联系电话',
+  `charge_mobile` varchar(11) NOT NULL COMMENT '机构联系电话',
   `appid` varchar(45) DEFAULT NULL,
   `appsecret` varchar(45) DEFAULT NULL,
-  `mp_token` varchar(45) DEFAULT NULL COMMENT '公众号介入token',
+  `token` varchar(45) DEFAULT NULL COMMENT '公众号介入token',
   `access_token` varchar(128) DEFAULT NULL COMMENT '公众号访问token',
   `token_fresh_time` datetime DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
+  `backUrl` varchar(128) DEFAULT NULL COMMENT '回调地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织机构表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,4 +48,4 @@ CREATE TABLE `t_org` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-03 23:27:58
+-- Dump completed on 2017-12-26 14:20:44
