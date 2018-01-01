@@ -221,7 +221,7 @@ public class AuthorController extends BaseController {
 	@RequestMapping("img/{uid}")
 	@ResponseBody
 	public void img(@PathVariable("uid") String uid, HttpServletRequest request, HttpServletResponse response) {
-		log.info("用户ID :{}", uid);
+		log.info("头像用户ID :{}", uid);
 		String headImagePath = new StringBuilder(FILE_BASE_PATH).append(HEADER_PATH).append("###").append(".png").toString();
 		try {
 			FileUtilz.imageToBase64(headImagePath.replaceFirst("###", uid), response);

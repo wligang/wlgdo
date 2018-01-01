@@ -140,22 +140,18 @@ public class FileUtilz extends FileUtils {
 	public static void imageToBase64(String imgSrcPath, ServletResponse response) throws IOException {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 		// 获取输出流
 		String JPG = "image/png;charset=GB2312";
-		try {
-			File file = new File(imgSrcPath);
-			OutputStream outputStream = response.getOutputStream();
-			FileInputStream fileInputStream = new FileInputStream(file);
-			// 读数据
-			byte[] data = new byte[fileInputStream.available()];
-			fileInputStream.read(data);
-			fileInputStream.close();
-			// 回写
-			response.setContentType(JPG);
-			outputStream.write(data);
-			outputStream.flush();
-			outputStream.close();
-		} catch (FileNotFoundException e) {
-			log.error("图片处理异常了path：{}", imgSrcPath);
-		}
+		File file = new File(imgSrcPath);
+		OutputStream outputStream = response.getOutputStream();
+		FileInputStream fileInputStream = new FileInputStream(file);
+		// 读数据
+		byte[] data = new byte[fileInputStream.available()];
+		fileInputStream.read(data);
+		fileInputStream.close();
+		// 回写
+		response.setContentType(JPG);
+		outputStream.write(data);
+		outputStream.flush();
+		outputStream.close();
 	}
 
 	/**
