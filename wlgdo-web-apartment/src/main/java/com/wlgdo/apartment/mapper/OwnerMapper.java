@@ -12,7 +12,8 @@ public interface OwnerMapper {
 			+ "values(#{id},#{name},#{mobile},#{build},1,#{floor},#{room},#{electfee},#{waterfee},now(),now())")
 	int save(Owner user);
 
-	
 	List<Owner> query(Owner user);
+
+	int update(Owner owner);
 
 }

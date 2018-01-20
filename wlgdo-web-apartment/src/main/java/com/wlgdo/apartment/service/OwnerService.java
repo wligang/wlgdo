@@ -22,4 +22,13 @@ public class OwnerService {
 		return ownerMapper.query(user);
 	}
 
+	public Owner update(Owner owner) {
+		owner.setBuild("6");
+		ownerMapper.update(owner);
+		if (1 == ownerMapper.update(owner)) {
+			return owner;
+		}
+		return null;
+	}
+
 }

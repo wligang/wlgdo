@@ -6,6 +6,12 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+/**
+ * 住户信息
+ * 
+ * @author Ligang.Wang[wlgchun@163.com]
+ * @date 2018年1月20日下午9:31:33
+ */
 public class Owner implements Serializable {
 
 	private static final long serialVersionUID = -1565115866276096035L;
@@ -21,6 +27,17 @@ public class Owner implements Serializable {
 
 	private Date createtime;
 	private Date updatetime;
+
+	public Owner() {
+
+	}
+
+	public Owner(String room, String electfee, String waterfee) {
+		this.room = room;
+		this.electfee = electfee;
+		this.waterfee = waterfee;
+		this.updatetime = new Date();
+	}
 
 	public String getId() {
 		return id;

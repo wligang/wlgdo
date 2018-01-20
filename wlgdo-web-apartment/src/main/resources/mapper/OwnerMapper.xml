@@ -13,4 +13,16 @@
 		</where>
 		order by updatetime,createtime desc
 	</select>
+
+	<update id="update">
+		update t_owner
+		<set>
+			<if test="@Ognl@isNotBlank(electfee)">electfee=#{electfee},</if>
+			<if test="@Ognl@isNotBlank(waterfee)">waterfee=#{waterfee},</if>
+			updatetime=now()
+		</set>
+		<where>
+			room=#{room} and build=#{build}
+		</where>
+	</update>
 </mapper>
