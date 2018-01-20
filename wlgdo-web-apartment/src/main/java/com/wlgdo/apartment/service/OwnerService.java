@@ -64,7 +64,7 @@ public class OwnerService {
 			String[][] list = ExcelUtils.getExcelData(file, 3);
 			log.info("获取到的用户列表：{}", list);
 			for (int i = 1; i < list.length; i++) {
-				update(new Owner(list[i][0], list[i][1], list[i][2]));
+				update(new Owner(list[i][0], list[i][2], list[i][3]));
 			}
 			return list.length - 1;
 		} catch (Exception e) {
