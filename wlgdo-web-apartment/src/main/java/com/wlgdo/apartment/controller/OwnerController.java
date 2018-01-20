@@ -1,5 +1,6 @@
 package com.wlgdo.apartment.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -28,14 +29,36 @@ public class OwnerController {
 	private OwnerService ownerrService;
 
 	@RequestMapping(value = "owner/{name}/{room}", method = RequestMethod.GET)
-	public Object saveOwner(@PathVariable String name, @PathVariable String room, Owner user) {
+	public Object saveOwner(@PathVariable String name, @PathVariable String room) {
 		log.info("注册用户");
-		user.setFloor(room.charAt(0) + "");
+		Owner user = new Owner();
 		user.setBuild("6");
+		user.setRoom(room);
+		List<Owner> olist = ownerrService.query(user);
+		if (!olist.isEmpty()) {
+			return new Resp("-1", "该房间已经注册了");
+		}
+		user.setName(name);
+		user.setFloor(room.charAt(0) + "");
 		user.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+		user.setElectfee("0.00");
+		user.setWaterfee("0.00");
 		int x = ownerrService.save(user);
 		log.info("保存用户结果：{}", x);
 		return new Resp(RespCode.SUCCESS, user);
+	}
+
+	/**
+	 * 
+	 * @author Ligang.Wang[wlgchun@163.com]
+	 * @date 2018年1月20日下午8:02:18
+	 * @return
+	 */
+	@RequestMapping(value = "owner/{room}", method = RequestMethod.GET)
+	public Object saveOwner(@PathVariable String room, Owner user) {
+		List<Owner> olist = ownerrService.query(user);
+		log.info("查詢用戶信息：{}", olist);
+		return new Resp(RespCode.SUCCESS, olist);
 	}
 
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wlgdo.apartment.mapper.OwnerMapper">
+
+	<select id="query" resultType="com.wlgdo.apartment.domain.Owner"
+		parameterType="com.wlgdo.apartment.domain.Owner">
+		select * from t_owner
+		<where>
+			<if test="@Ognl@isNotBlank(room)">and room=#{room}</if>
+			<if test="@Ognl@isNotBlank(build)">and build=#{build}</if>
+			<if test="@Ognl@isNotBlank(name)">and name=#{name}</if>
+			<if test="@Ognl@isNotBlank(mobile)">and mobile=#{mobile}</if>
+		</where>
+		order by updatetime,createtime desc
+	</select>
+</mapper>

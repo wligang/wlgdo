@@ -3,6 +3,9 @@ package com.wlgdo.apartment.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 public class Owner implements Serializable {
 
 	private static final long serialVersionUID = -1565115866276096035L;
@@ -87,6 +90,7 @@ public class Owner implements Serializable {
 		return createtime;
 	}
 
+	@DateTimeFormat(iso = ISO.DATE_TIME)
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
