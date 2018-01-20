@@ -7,8 +7,10 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.wlgdo.apartment.domain.Owner;
 import com.wlgdo.apartment.service.OwnerService;
@@ -75,7 +79,7 @@ public class OwnerController {
 	 * @return
 	 */
 	@RequestMapping(value = "owner/{room}", method = RequestMethod.GET)
-	public Object saveOwner(@PathVariable String room, Owner user) {
+	public Object queryOwner(@PathVariable String room, Owner user) {
 		List<Owner> olist = ownerrService.query(user);
 		log.info("查詢用戶信息：{}", olist);
 		return new Resp(RespCode.SUCCESS, olist);
@@ -118,6 +122,38 @@ public class OwnerController {
 			return new Resp(RespCode.SUCCESS, owner);
 		}
 		return new Resp("-1", "更新失败");
+	}
+
+	@RequestMapping(value = "owner/ipt/{build}", method = RequestMethod.GET)
+	public Object importOwnerWater(String userid, @PathVariable String build) {
+		log.info("更新用户水费：{},{}", userid, build);
+
+		int ret = ownerrService.importOwner(userid, build);
+		if (ret > 0) {
+			return new Resp(RespCode.SUCCESS, ret);
+		}
+		return new Resp("-1", "导入失败");
+	}
+
+	@RequestMapping(value = "owner/ipt/fee", method = RequestMethod.POST)
+	public Object importFeeData(String feetype, HttpServletRequest request, HttpServletResponse response) {
+		log.info("更新用户水费：{},{}");
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multFile = multipartRequest.getFile("feeFile");
+		File tempFile = new File(RESOURCE_FILE_PATH + "tep.xsl");
+		try {
+			multFile.transferTo(tempFile);
+			int ret = ownerrService.importFeeData(tempFile, feetype);
+			if (ret > 0) {
+				response.sendRedirect("http://localhost:8080/apt/h/index.html");
+				return null;
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Resp("-1", "导入失败");
 	}
 
 	/**

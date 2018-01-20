@@ -2,6 +2,7 @@ package com.wlgdo.apartment.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;

@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wlgdo.apartment.mapper.OwnerMapper">
 
+
+	<insert id="save" parameterType="com.wlgdo.apartment.domain.Owner">
+		insert into t_owner (id,name,mobile,build,unit,floor,room,electfee,waterfee,createtime,updatetime)
+		values(#{id},#{name},#{mobile},#{build},1,#{floor},#{room},#{electfee},#{waterfee},now(),now())
+	</insert>
+
 	<select id="query" resultType="com.wlgdo.apartment.domain.Owner"
 		parameterType="com.wlgdo.apartment.domain.Owner">
 		select * from t_owner
