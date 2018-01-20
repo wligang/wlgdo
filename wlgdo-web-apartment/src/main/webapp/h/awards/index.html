@@ -1,0 +1,131 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>奖项/奖品管理</title>
+<script type="text/javascript" src="/lunck/static/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div>
+		奖项：
+		<select id="awardListId" name="awardsList">
+		</select>
+	</div>
+	<div>
+		幸运人数：
+		<input id="luckyNumId"></input>
+		<button onclick="rewardPrize();">开始</button>
+	</div>
+	<div>
+		幸运者:
+		<div>
+			<div id="awardTitleId"></div>
+			<div id="lunckDogList"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		var localStorage=window.localStorage;
+		queryAwards();
+	})
+
+	//开始抽奖
+	function rewardPrize() {
+		var lunckNum = $("#luckyNumId").val();
+		var luckyMembers = new Array();
+		//可以展示，但是不一定会中
+		var actors = queryActors();
+		console.log(actors);
+
+		//循环取出中奖者
+		for (var i = 0; i < lunckNum; i++) {
+			//参与者中随机获取一个
+			var randIndex = Math.floor(Math.random() * (actors.length + 1));
+			luckyMembers[i] = actors.splice(Math
+					.floor((Math.random() * actors.length)), 1);
+		}
+		//中奖者列表
+		console.log(luckyMembers);
+		saveLuckyList(luckyMembers);
+	}
+
+	//保存到后台数据库(为了保证安全，产生的数据必须是保存到数据库正确之后才展示给用户)
+	function saveLuckyList(lunckData){
+		var awardId=$("#awardListId :selected").val();
+		var actorIds=[];
+		$.each(lunckData,function(i,e){
+			actorIds.push(e[0].uid);
+			lunckData[i]=e[0];
+		})
+		$.ajax({
+			url : "/lunck/prize/add/",
+			data : {uids:actorIds.join("-"),awardId:$("#awardListId").val()},
+			type : "POST",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+			},
+			error:function(e){
+				console.log(e);
+			}
+		})
+		
+		renderLunckList(lunckData);
+	}
+	
+	
+	//渲染中奖者列表
+	function renderLunckList(data) {
+		$("#awardTitleId").html("本次抽奖是："+$("#awardListId :selected").text());
+		$("#lunckDogList").append("中奖列表：");
+		$.each(data, function(i,e) {
+			$("#lunckDogList").append(`<div>`+e.name+`</div>`);
+		})
+	}
+
+	//查询奖项列表
+	function queryAwards() {
+		$.ajax({
+			url : "/lunck/award/list/0/0",
+			data : {},
+			type : "POST",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				if (data && data.code == "0") {
+					console.log(data);
+					data = data.data;
+					$.each(data, function(i, e) {
+						$("#awardListId").append(
+								'<option value="'+e.id+'">' + e.name
+										+ '</option>');
+					})
+				}
+			}
+		});
+	}
+
+	//查询参与人列表
+	function queryActors() {
+		var actors = [];
+		$.ajax({
+			url : "/lunck/actor/list/0",
+			data : {},
+			type : "POST",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				if (data && data.code == "0") {
+					console.log(data);
+				}
+				actors = data.data;
+			}
+		});
+		return actors;
+	}
+</script>
+</html>

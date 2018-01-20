@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>机构管理</title>
+<script type="text/javascript"
+	src="/lunck/static/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	机构ID：
+	<input id="orgId" /> 机构名称：
+	<input id="orgName" />重定向到URL：
+	<input id="oauthRedirect" />
+	</br>
+
+	<button onclick="saveOrg()">保存</button>
+	<button onclick="queryOrg()">查询</button>
+	<button onclick="queryOrg(1)">查询1</button>
+	<button onclick="updateOrg(1)">更新</button>
+
+
+</body>
+<script type="text/javascript">
+	//保存奖项
+	function saveOrg() {
+
+		$.ajax({
+			url : "/lunck/org",
+			data : {
+				'id' : $("#orgId").val(),
+				'orgName' : $("#orgName").val(),
+				'oauthRedirect' : $("#oauthRedirect").val(),
+				'chargeName' : "马化腾",
+				'chargeMobile' : "15501033589",
+				'appid' : "wx3cb81c3c95c1a755",
+				'appsecret' : "600bd6c8edb8ca5340e409910845ca5c"
+			},
+			type : "POST",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+				if (data && data.code == "0") {
+					console.log(data);
+				}
+			}
+		});
+	}
+	//查询奖项列表
+	function queryOrg(id) {
+		$.ajax({
+			url : id == null ? "/lunck/org" : '/lunck/org/' + id,
+			data : {},
+			type : "GET",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+				if (data && data.code == "0") {
+					data = data.data;
+				}
+			}
+		});
+	}
+
+	//update
+	function updateOrg() {
+		var id = $("#orgId").val();
+		var url = $("#oauthRedirect").val();
+		$.ajax({
+			url : "/lunck/org/" + id,
+			data : {
+				backUrl : url,
+				  _method : "put"   //
+			},
+			type : "post",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+				if (data && data.code == "0") {
+					data = data.data;
+				}
+			}
+		});
+	}
+</script>
+</html>
