@@ -20,10 +20,10 @@ import com.wlgdo.apartment.service.UserService;
 @RestController
 public class UserController {
 
-	Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 	// 依赖注入
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	/**
 	 * @desc [有效描述]
