@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>奖项/奖品管理</title>
-<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<!-- 	创建 -->
@@ -84,7 +84,7 @@
 		});
 
 		$.ajax({
-			url : "/award/add",
+			url : "/lunck/award/add",
 			data : {
 				'name' : $("#awardDiv :input[name='name']").val(),
 				'level' : $("#awardDiv :input[name='level']").val(),
@@ -107,7 +107,7 @@
 	//查询奖项列表
 	function queryAward(orgId, status) {
 		$.ajax({
-			url : "/award/list/" + orgId + "/" + status,
+			url : "/lunck/award/list/" + orgId + "/" + status,
 			data : {},
 			type : "POST",
 			dataType : "json",
@@ -140,7 +140,7 @@
 	//查询参与人列表
 	function queryActors(orgId) {
 		$.ajax({
-			url : "/actor/list/" + orgId,
+			url : "/lunck/actor/list/" + orgId,
 			data : {},
 			type : "POST",
 			dataType : "json",

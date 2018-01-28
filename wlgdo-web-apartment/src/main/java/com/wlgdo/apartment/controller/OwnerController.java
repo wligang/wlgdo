@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +81,10 @@ public class OwnerController {
 	public Object queryOwner(@PathVariable String room, Owner user) {
 		List<Owner> olist = ownerrService.query(user);
 		log.info("查詢用戶信息：{}", olist);
-		return new Resp(RespCode.SUCCESS, olist);
+		if (olist.isEmpty()) {
+			return new Resp("-1", "未查询到该房间信息");
+		}
+		return new Resp(RespCode.SUCCESS, olist.get(0));
 	}
 
 	/**
@@ -145,7 +147,7 @@ public class OwnerController {
 			multFile.transferTo(tempFile);
 			int ret = ownerrService.importFeeData(tempFile, feetype);
 			if (ret > 0) {
-				response.sendRedirect("http://localhost:8080/apt/h/index.html");
+//				response.sendRedirect("http://localhost:8080/apt/h/index.html");
 				return null;
 			}
 		} catch (IllegalStateException e) {
