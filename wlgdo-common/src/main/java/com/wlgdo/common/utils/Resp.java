@@ -3,7 +3,7 @@ package com.wlgdo.common.utils;
 /**
  * RPC请求结果封装类
  * 
- * @author: Ligang.Wang[wang_lg@suixingpay.com] 
+ * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午10:07:04
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * java反射帮助类 提供对象,属性,方法之间转换的常用方法 <br>
  * 在对象或者类中,有的属性不可访问,可以通过 xxx.setAccessible(true);
- * @author: Ligang.Wang[wang_lg@suixingpay.com] 
+ * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午10:25:51
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */

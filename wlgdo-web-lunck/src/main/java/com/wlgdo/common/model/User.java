@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * 构建一个用来抽象类来构造用户的基本属性
- * @author: Ligang.Wang[wang_lg@suixingpay.com] 
+ * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午11:52:17
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */
