@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * 
  * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午10:08:23
- * @Copyright ©2017 Suixingpay. All rights reserved.
+ * @Copyright ©2017 wlgdo. All rights reserved.
  */
 public class Result {
 

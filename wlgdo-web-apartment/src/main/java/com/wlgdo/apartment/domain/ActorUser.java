@@ -9,7 +9,7 @@ import com.wlgdo.common.model.User;
  * 
  * @author: Ligang.Wang[wlgchun@163.com]
  * @date: 2017年11月20日 上午11:52:17
- * @Copyright ©2017 Suixingpay. All rights reserved.
+ * @Copyright ©2017 wlgdo. All rights reserved.
  */
 public class ActorUser extends User {
 

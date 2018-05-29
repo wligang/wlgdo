@@ -13,7 +13,7 @@ import java.util.List;
  * 在对象或者类中,有的属性不可访问,可以通过 xxx.setAccessible(true);
  * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午10:25:51
- * @Copyright ©2017 Suixingpay. All rights reserved.
+ * @Copyright ©2017 wlgdo. All rights reserved.
  */
 public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 

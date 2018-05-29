@@ -32,7 +32,7 @@ import com.wlgdo.lottery.service.ActorService;
  * 
  * @author: Ligang.Wang[wlgchun@163.com]
  * @date: 2017年11月20日 下午2:48:34
- * @Copyright ©2017 Suixingpay. All rights reserved.
+ * @Copyright ©2017 wlgdo. All rights reserved.
  */
 @RestController
 public class ActorController {

@@ -17,7 +17,7 @@ import com.wlgdo.lottery.service.AwardaService;
  * 抽奖服务
  * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月23日 下午3:08:59
- * @Copyright ©2017 Suixingpay. All rights reserved.
+ * @Copyright ©2017 wlgdo. All rights reserved.
  */
 @RestController
 public class DrawController {
