@@ -37,6 +37,22 @@ CREATE TABLE `t_actor` (
   `nick_name` varchar(45) DEFAULT NULL COMMENT '昵称',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参与者';
+
+CREATE TABLE `t_owner` (
+  `id` varchar(32) NOT NULL,
+  `name` varchar(45)  DEFAULT NULL,
+  `mobile` varchar(11)  DEFAULT NULL,
+  `build` varchar(2)  DEFAULT NULL COMMENT '楼号',
+  `unit` varchar(2)  DEFAULT NULL COMMENT '單元',
+  `floor` varchar(2)  DEFAULT NULL COMMENT '  楼层',
+  `room` varchar(4)  DEFAULT NULL COMMENT '房间号',
+  `electfee` varchar(10)  DEFAULT NULL,
+  `waterfee` varchar(10)  DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_room` (`room`,`build`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=' 业主表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

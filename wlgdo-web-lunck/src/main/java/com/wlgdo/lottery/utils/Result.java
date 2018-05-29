@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 /**
  * 业务结果返回封装类
  * 
- * @author: Ligang.Wang[wang_lg@suixingpay.com] 
+ * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月20日 上午10:08:23
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */

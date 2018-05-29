@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人中心</title>
+
+</head>
+<body>
+	<input id="roomId" value="115">
+	<button onclick="queryBaseInfo();">查詢</button>
+
+
+	<div>
+		<form action="/apt/owner/ipt/fee" method="post"
+			enctype="multipart/form-data">
+			文件：<input type="file" name="feeFile" id="feeFile"><br />类型：
+			<select name="feetype"><option value="0">电费</option>
+				<option value="1">水费</option></select> 提交：
+			<button type="submit">保存</button>
+		</form>
+
+	</div>
+</body>
+<script type="text/javascript" src="/apt/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//queryBaseInfo();
+	})
+
+	function queryBaseInfo() {
+
+		var rid = $("#roomId").val();
+		$.ajax({
+			url : "/apt/owner/" + rid,
+			data : {
+			//_method : "get" //
+			},
+			type : "get",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+				if (data && data.code == "0") {
+					data = data.data;
+				}
+			}
+		});
+	}
+</script>
+</html>

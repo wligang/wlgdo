@@ -11,14 +11,14 @@ import java.util.Map;
 /**
  * 纯净版map与Object之间的转化工具，没有三方包的依赖
  * 
- * @author Ligang.Wang[wang_lg@suixingpay.com]
+ * @author Ligang.Wang[wlgchun@163.com]
  * @date 2017年9月25日 下午3:07:59
  */
 public class MapUtils {
 	/**
 	 * 将对象转化未map(常见于对象得合并分发)
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年9月25日下午3:17:32
 	 * @param map
 	 * @param obj
@@ -54,7 +54,7 @@ public class MapUtils {
 	/**
 	 * map转为对象
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年9月26日上午11:10:22
 	 * @param map
 	 * @param beanClass

@@ -15,7 +15,7 @@ import com.wlgdo.lottery.service.AwardaService;
 
 /**
  * 抽奖服务
- * @author: Ligang.Wang[wang_lg@suixingpay.com] 
+ * @author: Ligang.Wang[wlgchun@163.com] 
  * @date:  2017年11月23日 下午3:08:59
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */
@@ -27,7 +27,7 @@ public class DrawController {
 
     /**
      * 有效描述
-     * @author Ligang.Wang[wang_lg@suixingpay.com]
+     * @author Ligang.Wang[wlgchun@163.com]
      * @date 2017年11月23日下午6:02:22
      * @param orgId
      * @param status
@@ -45,7 +45,7 @@ public class DrawController {
 
     /**
      * 有效描述
-     * @author Ligang.Wang[wang_lg@suixingpay.com]
+     * @author Ligang.Wang[wlgchun@163.com]
      * @date 2017年11月24日下午1:27:18
      * @param orgId
      * @param status

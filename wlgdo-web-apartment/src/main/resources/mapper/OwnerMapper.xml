@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wlgdo.apartment.mapper.OwnerMapper">
+
+
+	<insert id="save" parameterType="com.wlgdo.apartment.domain.Owner">
+		insert into t_owner (id,name,mobile,build,unit,floor,room,electfee,waterfee,createtime,updatetime)
+		values(#{id},#{name},#{mobile},#{build},1,#{floor},#{room},#{electfee},#{waterfee},now(),now())
+	</insert>
+
+	<select id="query" resultType="com.wlgdo.apartment.domain.Owner"
+		parameterType="com.wlgdo.apartment.domain.Owner">
+		select * from t_owner
+		<where>
+			<if test="@Ognl@isNotBlank(room)">and room=#{room}</if>
+			<if test="@Ognl@isNotBlank(build)">and build=#{build}</if>
+			<if test="@Ognl@isNotBlank(name)">and name=#{name}</if>
+			<if test="@Ognl@isNotBlank(mobile)">and mobile=#{mobile}</if>
+		</where>
+		order by updatetime,createtime desc
+	</select>
+
+	<update id="update">
+		update t_owner
+		<set>
+			<if test="@Ognl@isNotBlank(electfee)">electfee=#{electfee},</if>
+			<if test="@Ognl@isNotBlank(waterfee)">waterfee=#{waterfee},</if>
+			updatetime=now()
+		</set>
+		<where>
+			room=#{room} and build=#{build}
+		</where>
+	</update>
+</mapper>

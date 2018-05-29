@@ -11,7 +11,7 @@ import com.wlgdo.lottery.mapper.ActorMapper;
 /**
  * 参与者服务
  * 
- * @author: Ligang.Wang[wang_lg@suixingpay.com]
+ * @author: Ligang.Wang[wlgchun@163.com]
  * @date: 2017年11月20日 下午3:17:55
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */

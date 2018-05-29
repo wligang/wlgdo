@@ -30,7 +30,7 @@ import com.wlgdo.lottery.service.ActorService;
 /**
  * 参与者请求接受服务
  * 
- * @author: Ligang.Wang[wang_lg@suixingpay.com]
+ * @author: Ligang.Wang[wlgchun@163.com]
  * @date: 2017年11月20日 下午2:48:34
  * @Copyright ©2017 Suixingpay. All rights reserved.
  */
@@ -51,7 +51,7 @@ public class ActorController {
 	 * 
 	 * 查询该机构下所有参与用户
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年11月23日上午10:52:11
 	 * @param orgid
 	 *            机构ID
@@ -76,7 +76,7 @@ public class ActorController {
 	/**
 	 * 添加员工
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年11月22日下午12:20:36
 	 * @param employee
 	 *            雇员编号
@@ -102,7 +102,7 @@ public class ActorController {
 	/**
 	 * 开始参与
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年11月20日下午5:19:22
 	 * @param employee
 	 * @return Resp
@@ -128,7 +128,7 @@ public class ActorController {
 	/**
 	 * 手机认证
 	 * 
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年11月20日下午5:19:49
 	 * @param mobile
 	 * @return Resp

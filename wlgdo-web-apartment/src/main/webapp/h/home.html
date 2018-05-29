@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<meta name="format-detection"
+	content="telephone=no,email=no,date=no,address=no">
+<title>37°公寓·个人中心</title>
+<link rel="stylesheet" type="text/css" href="/apt/static/css/aui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/apt/static/css/aui-skin.css" />
+<style type="text/css">
+.user-info {
+	background-color: #ffffff;
+	padding: 0.75rem 0;
+}
+
+img.avatar {
+	display: block;
+	margin: 0 auto;
+	width: 20%;
+}
+
+.aui-list .aui-list-header {
+	background-color: #ffffff;
+	line-height: 1.2rem;
+}
+
+.aui-list .aui-list-item {
+	background-color: #f8f6ef;
+}
+
+.fee-list {
+	font-size: 25px;
+}
+</style>
+</head>
+<body>
+	<section class="aui-content user-info aui-text-center aui-margin-b-15">
+		<img src="/apt/images/logo.png" class="avatar aui-img-round"
+			id="headimg">
+		<div class="aui-row aui-margin-t-15">
+			<div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
+				<span class="aui-text-danger aui-margin-r-5" id="username"></span> <small>
+					<i class="aui-iconfont aui-icon-cert aui-text-danger"></i>
+				</small>
+			</div>
+			<div class="aui-col-xs-6 aui-text-left aui-padded-l-10">
+				房间<span class="aui-text-danger aui-margin-l-5" id="room">6号楼110室</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="aui-content aui-grid aui-margin-b-15">
+		<div class="aui-row fee-list">
+			<div class="aui-col-xs-4 aui-border-r">
+				<big class="aui-text-warning"><span id="electfee">0.00</span><small>
+						元</small></big>
+				<div class="aui-gird-lable aui-font-size-12">电费</div>
+			</div>
+			<div class="aui-col-xs-4 aui-border-r">
+				<big class="aui-text-danger"><span id="waterfee">0.00</span><small>
+						元</small></big>
+				<div class="aui-gird-lable aui-font-size-12">热水费</div>
+			</div>
+			<div class="aui-col-xs-4">
+				<big class="aui-text-success">00<small></small></big>
+				<div class="aui-gird-lable aui-font-size-12">活跃度</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="aui-content">
+		<ul class="aui-list aui-list-noborder">
+			<div class="aui-list-header">
+				<div>
+					<h3>
+						<i class="aui-iconfont aui-icon-paper""></i>今日话题
+					</h3>
+				</div>
+
+			</div>
+			<div class="aui-tab" id="tab">
+				<div class="aui-tab-item aui-active">热门话题</div>
+				<div class="aui-tab-item">
+					<div></div>
+					幼儿园咨询
+				</div>
+			</div>
+		</ul>
+	</section>
+		<p class="aui-padded-10 aui-text-center  ">本系统只用于研究学习使用，所有数据均无任何意义</p>
+
+</body>
+<script type="text/javascript" src="/apt/static/js/aui/api.js"></script>
+<script type="text/javascript" src="/apt/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-tab.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-skin.js"></script>
+<script type="text/javascript">
+	apiready = function() {
+		api.parseTapmode();
+	}
+	var skin = new auiSkin({
+	    name:"night", //皮肤样式名字，不能为中文
+	    skinPath:'/apt/static/css/aui-skin-night.css', //皮肤样式表路径
+	    default:false,//是否默认立即使用
+	    beginTime:"20:00",//开始时间
+	    endTime:"07:00"//结束时间
+	})
+	
+	var tab = new auiTab({
+		element : document.getElementById("tab"),
+	}, function(ret) {
+		console.log(ret)
+	});
+	
+	var room = null;
+	var localStorage = window.localStorage;
+	$(function() {
+		room = localStorage.getItem("room");
+		if (room != null) {
+			showToast('loading');
+			queryBaseInfo(room);
+		}else{
+			openDialog('input');
+		}
+
+	})
+
+	var dialog = new auiDialog({})
+	function openDialog(type, title) {
+		switch (type) {
+		case 'input':
+			dialog.prompt({
+				title : title ? title : "温馨提示",
+				text : '请输入自己房间号,如:115',
+				buttons : [ '确定' ]
+			}, function(ret) {
+				console.log(ret);
+				if ($api.trimAll(ret.text) == "") {
+					return;
+				}
+				queryBaseInfo(ret.text);
+			})
+			break;
+		 case "callback":
+             dialog.alert({
+                     title:  "温馨提示",
+                     msg:title ? title : "温馨提示",
+                     buttons:['取消','确定']
+                 },function(ret){
+                     if(ret){
+                    	 if(ret.buttonIndex==2){
+                    		 window.location.href="/apt/h/index.html";
+                    	 }
+                     }
+                 })
+             break;
+		}
+	}
+
+	var toast = new auiToast({});
+	function showToast(type) {
+		switch (type) {
+		case "success":
+			toast.success({
+				title : "查询成功",
+				duration : 1000
+			});
+			break;
+		case "loading":
+            toast.loading({
+                title:"加载中",
+                duration:1000
+            },function(ret){
+                console.log(ret);
+                setTimeout(function(){
+                    toast.hide();
+                }, 3000)
+            });
+            break;
+		}
+
+	}
+	function queryBaseInfo(room) {
+		$.ajax({
+			url : "/apt/owner/" + room,
+			data : {},
+			type : "get",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				console.log(data);
+				toast.hide();
+				if (data && data.code == "0") {
+					showToast('success');
+					localStorage.setItem("room", room);
+					data = data.data;
+					$("#username").html(data.name);
+					$("#room").html(data.build+"号楼"+data.room+"室");
+					if (data.electfee) {
+						$("#electfee").html(data.electfee);
+					}
+					if (data.waterfee) {
+						$("#waterfee").html(data.waterfee);
+					}
+					$("#headimg").attr("src","/apt/owner/img/"+room);
+				} else {
+					openDialog('callback', "房间号不存在,是否去注册？");
+				}
+			}
+		});
+	}
+</script>
+</html>
