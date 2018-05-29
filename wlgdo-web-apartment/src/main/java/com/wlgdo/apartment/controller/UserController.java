@@ -13,9 +13,8 @@ import com.wlgdo.apartment.service.UserService;
 
 /**
  * @desc 对User对象的业务提供服务，并在第二次上线之后才起作用
- * @author: Ligang.Wang[wang_lg@suixingpay.com]
+ * @author: Ligang.Wang[wlgchun@163.com]
  * @date: 2017年11月10日 下午3:50:23
- * @Copyright ©2017 Suixingpay. All rights reserved.
  */
 @RestController
 public class UserController {
@@ -27,7 +26,7 @@ public class UserController {
 
 	/**
 	 * @desc [有效描述]
-	 * @author Ligang.Wang[wang_lg@suixingpay.com]
+	 * @author Ligang.Wang[wlgchun@163.com]
 	 * @date 2017年11月10日下午3:43:26
 	 * @param model
 	 * @param user
