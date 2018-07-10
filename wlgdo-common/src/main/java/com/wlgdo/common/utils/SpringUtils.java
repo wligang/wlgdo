@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * 一组getBean方法 .<br>
  * 
- * @author dk <br>
+ * @author wlgchun@163.com <br>
  */
 public class SpringUtils implements BeanFactoryAware {
 	static Logger log = LoggerFactory.getLogger(SpringUtils.class);
