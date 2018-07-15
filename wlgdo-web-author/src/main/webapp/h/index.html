@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<meta name="format-detection"
+	content="telephone=no,email=no,date=no,address=no">
+<title>37°公寓</title>
+<link rel="stylesheet" type="text/css" href="/apt/static/css/aui.css" />
+<style type="text/css">
+.title-index {
+	margin-top: 20%;
+	font-size: xx-large
+}
+
+.form-us {
+	margin-top: 50px;
+}
+</style>
+</head>
+<body>
+	<p class="aui-padded-10 aui-text-center title-index ">37°公寓6号楼</p>
+	<div class="aui-content aui-margin-b-15 form-us">
+		<ul class="aui-list aui-form-list">
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">姓名</div>
+					<div class="aui-list-item-input">
+						<input type="text" id="name" name="name" placeholder="请输入您的真实姓名">
+					</div>
+				</div>
+			</li>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">房号</div>
+					<div class="aui-list-item-input">
+						<input type="text" id="room" name="room" placeholder="请输入您的房间号">
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<p>
+	<div class="aui-btn aui-btn-primary aui-btn-block" onclick="submmit();">确认</div>
+	</p>
+	<p class="aui-padded-10 aui-text-center  ">本系统只用于研究学习使用，所有数据均无任何意义</p>
+</body>
+<script type="text/javascript" src="/apt/static/js/aui/api.js"></script>
+<script type="text/javascript" src="/apt/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="/apt/static/js/aui/aui-skin.js"></script>
+<script type="text/javascript">
+	apiready = function() {
+		api.parseTapmode();
+	}
+	var toast = new auiToast({});
+	function showToast(type, title) {
+		switch (type) {
+		case "success":
+			toast.success({
+				title : "提交成功",
+				duration : 1000
+			});
+			break;
+		case "loading":
+			toast.loading({
+				title : "正在处理...",
+				duration : 1000
+			}, function(ret) {
+				console.log(ret);
+				setTimeout(function() {
+					toast.hide();
+				}, 3000)
+			});
+			break;
+		case "fail":
+			toast.fail({
+				title : title ? title : "请填写正确的信息",
+				duration : 2000
+			});
+			break;
+		}
+
+	}
+	function submmit() {
+		var name = $api.trimAll($("#name").val());
+		var room = $api.trimAll($("#room").val());
+		if (name == '' || room == '') {
+			showToast("fail", "输入错误");
+			return;
+		}
+		if (name.length > 5 || room.length > 4) {
+			showToast("fail", "输入错误");
+			return;
+		}
+		showToast('loading');
+		$.ajax({
+			url : "/apt/owner/" + name + "/" + room,
+			data : {},
+			type : "get",
+			dataType : "json",
+			timeout : 600,
+			async : false,
+			success : function(data) {
+				toast.hide();
+				console.log(data);
+				if (data && data.code == '0') {
+					window.localStorage.setItem("room", room);
+					window.location.href = 'http://37du.wlgdo.com'
+				} else {
+					showToast("fail", data.msg ? data.msg : "网络失败");
+				}
+			}
+		})
+	}
+</script>
+</html>
