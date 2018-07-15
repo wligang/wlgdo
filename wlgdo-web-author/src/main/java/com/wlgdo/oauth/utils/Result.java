@@ -1,4 +1,4 @@
-package com.wlgdo.apartment.utils;
+package com.wlgdo.oauth.utils;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 

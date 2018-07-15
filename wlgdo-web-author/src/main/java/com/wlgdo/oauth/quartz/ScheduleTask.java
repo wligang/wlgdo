@@ -1,4 +1,4 @@
-package com.wlgdo.apartment.quartz;
+package com.wlgdo.oauth.quartz;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
