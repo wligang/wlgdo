@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wlgdo.apartment.domain.ActorUser;
-import com.wlgdo.apartment.service.UserService;
+import com.wlgdo.apartment.service.OwnerService;
 
 /**
  * @desc 对User对象的业务提供服务，并在第二次上线之后才起作用
@@ -22,7 +22,7 @@ public class UserController {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	// 依赖注入
 	@Autowired
-	private UserService userService;
+	private OwnerService userService;
 
 	/**
 	 * @desc [有效描述]
