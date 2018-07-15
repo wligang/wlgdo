@@ -48,7 +48,7 @@ dependencies {
 		
 		compile "net.sourceforge.jexcelapi:jxl:2.6"
 	    compile "org.apache.commons:commons-lang3:3.3.2" 
-	    compile 'dom4j:dom4j:1.6.1'
+	    
 	    compile "org.apache.derby:derby:10.10.1.1"
 	    compile "org.apache.xbean:xbean-spring:3.16"
 	    compile "org.apache.poi:poi:3.14-beta1"
